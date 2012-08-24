@@ -8,7 +8,33 @@ import java.util.StringTokenizer;
 
 public class Ej1 {
 	
-	public static void resolver(){
+	/*
+	 * Funcion que resuelve el problema
+	 */
+	
+	public static int buscarGanancia(int[] precios){
+		int min = precios[0], max = precios[0], tam = precios.length;
+		int gananciaActual = 0;
+		int gananciaMax = 0;
+		for (int i = 1; i < tam; i++){
+			if (precios[i] < min){
+				min = precios[i];
+				max = precios[i];
+				
+			}
+			if (precios[i] > max){
+				max = precios[i];
+			}
+			gananciaActual = max - min;
+			if (gananciaActual > gananciaMax) gananciaMax = gananciaActual;
+		}
+		return gananciaMax;
+	}
+	/*
+	 * Funciones para leer y escribir el Ejercicio 1
+	 */
+	
+	public static void abrir(){
 		
 		try{
 		BufferedReader reader = new BufferedReader( new FileReader( "./src/Tp1Ej1.in" ) );
@@ -39,24 +65,6 @@ public class Ej1 {
 	   return precios;
 	}
 			
-	private static int buscarGanancia(int[] precios){
-		int min = precios[0], max = precios[0], tam = precios.length;
-		int gananciaActual = 0;
-		int gananciaMax = 0;
-		for (int i = 1; i < tam; i++){
-			if (precios[i] < min){
-				min = precios[i];
-				max = precios[i];
-				
-			}
-			if (precios[i] > max){
-				max = precios[i];
-			}
-			gananciaActual = max - min;
-			if (gananciaActual > gananciaMax) gananciaMax = gananciaActual;
-		}
-		return gananciaMax;
-	}
 			
 	private static void escribir(int res, BufferedWriter os){
 		try{
