@@ -37,7 +37,7 @@ public class Ej1 {
 	public static void abrir(){
 		
 		try{
-		BufferedReader reader = new BufferedReader( new FileReader( "./src/Tp1Ej1.in" ) );
+		BufferedReader reader = new BufferedReader( new FileReader( "./tests/Tp1Ej1.in" ) );
 		String linea;
 		
 		BufferedWriter os = new BufferedWriter( new FileWriter( "Tp1Ej1.out" ) );
