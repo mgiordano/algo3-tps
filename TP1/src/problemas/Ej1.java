@@ -34,10 +34,14 @@ public class Ej1 {
 	 * Funciones para leer y escribir el Ejercicio 1
 	 */
 	
-	public static void abrir(){
+	public static void resolver(String file){
+		/*
+		 * Esta funcion toma el path del archivo de entrada y luego escribe
+		 * los resultados en un archivo de salida en la carpeta root del proyecto
+		 */
 		
 		try{
-		BufferedReader reader = new BufferedReader( new FileReader( "./tests/Tp1Ej1.in" ) );
+		BufferedReader reader = new BufferedReader( new FileReader(file) );
 		String linea;
 		
 		BufferedWriter os = new BufferedWriter( new FileWriter( "Tp1Ej1.out" ) );
@@ -52,7 +56,7 @@ public class Ej1 {
 		}
 	}
 			
-	private static int[] leer( String string ) {
+	public static int[] leer( String string ) {
 		
 	   StringTokenizer st = new StringTokenizer( string, " " );
 	   int tam = st.countTokens();

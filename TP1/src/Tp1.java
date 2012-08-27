@@ -1,17 +1,15 @@
 package src;
 
-import static org.junit.Assert.assertEquals;
-import org.junit.Test;
-import src.problemas.Ej1;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+import org.junit.runners.Suite.SuiteClasses;
+
+@SuiteClasses(value={
+       Tests1.class
+        })
+@RunWith(Suite.class)
 
 public class Tp1{
 
-
-	@Test
-	public void mdecreciente(){
-		
-		assertEquals( 0, Ej1.buscarGanancia( new int[] { 4, 3,2,1 } ) );
-
-	}
 	
 }

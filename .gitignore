@@ -4,3 +4,5 @@ TP1/.project
 TP1/.settings/
 .metadata
 *.class
+*.out
+*.in
