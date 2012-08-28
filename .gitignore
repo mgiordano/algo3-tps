@@ -6,3 +6,9 @@ TP1/.settings/
 *.class
 *.out
 *.in
+*.DS_Store
+*.aux
+*.log
+*.pdf
+*.toc
+*.gz
