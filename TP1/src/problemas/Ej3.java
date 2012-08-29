@@ -3,72 +3,65 @@ package src.problemas;
 
 public class Ej3 {
 
-	public static int[] cortarListon(Liston liston){
+	public static int cortarListon(Liston liston){
 		
-		
-		return liston.solucion;
+		int m = liston.cantCortes()-1; 
+		int costo = memoizedCosto(liston, 0, m, 0, liston.largo);
+		//reconstruirSol(liston,0,m);
+		liston.imprimir(liston.costos);
+		return costo;
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	public static int costo(int largo, int[] cortes){
-		int[][] costo = new int[cortes.length][cortes.length];
-		for(int j = 0; j < (cortes.length); j++ ){
-			for(int i = 0; i < (cortes.length); i++ ){
-				costo[j][i] = Integer.MAX_VALUE;
-			}
-		}
-		return memoizedCosto(cortes, costo, 0, cortes.length-1, 0, largo);
-
-	}
-	
-	public static int memoizedCosto(int[] cortes, int[][] costo, int i, int j, int izq, int der){
+	public static int memoizedCosto(Liston liston, int i, int j, int izq, int der){
 		int z,x;
-		if (costo[0][costo.length-1] < Integer.MAX_VALUE){
-			return costo[0][costo.length-1];
+		int m = liston.cantCortes()-1;
+		if (liston.dameCosto(0, m) < Integer.MAX_VALUE){
+			return liston.dameCosto(0, m);
 		}
 		if( i == j ){
-			if(cortes[i] == izq || cortes[j] == der){
+			if(liston.dameCorte(i) == izq || liston.dameCorte(j) == der){
 				return 0;
 			}else{
-				//System.out.println("lala ");
-				//System.out.println(der-izq);
 				return der - izq;
 			}
 		}else{
-			int q = Integer.MAX_VALUE;
+			int qAnt = Integer.MAX_VALUE;
+			int ktmp = 0;
 			for(int k = i; k < j; k++){
-				if (costo[i][k] < Integer.MAX_VALUE){
-					x = costo[i][k]; 
+				if (liston.dameCosto(i,k) < Integer.MAX_VALUE){
+					x = liston.dameCosto(i,k); 
 				}else{
-					x = memoizedCosto(cortes, costo, i, k, izq, cortes[k]);
+					x = memoizedCosto(liston, i, k, izq, liston.dameCorte(k));
 				}
-				if (costo[k+1][j] < Integer.MAX_VALUE){
-					z = costo[k+1][j]; 
+				if (liston.dameCosto(k+1,j) < Integer.MAX_VALUE){
+					z = liston.dameCosto(k+1,j); 
 				}else{
-					z = memoizedCosto(cortes, costo, k+1, j, cortes[k], der);
+					z = memoizedCosto(liston, k+1, j, liston.dameCorte(k), der);
 				}
-				q = Math.min(q, x + z + (der-izq));
+				int qAct = x + z + (der-izq);
+				if (qAct < qAnt){
+					qAnt = qAct;
+					ktmp = k;
+				}
 			}
-			costo[i][j] = q;
-			//System.out.println(q);
-			return q;
+			liston.insertarSolucion(i,j,ktmp);
+			liston.insertarCosto(i,j,qAnt);
+			return qAnt;
+		}
+	}
+	
+	public static void reconstruirSol(Liston liston, int i, int j){
+		
+		if (i == j){
+			System.out.print(liston.dameCorte(i)+" ");
+		}else{
+			reconstruirSol(liston,i,liston.dameSolucion(i,j));
+			reconstruirSol(liston,liston.dameSolucion(i,j)+1,j);
 		}
 		
-		
-	
-	
 	}
-	}
+	
+}
 
 		
 	

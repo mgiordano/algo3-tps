@@ -2,15 +2,24 @@ package src;
 
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertArrayEquals;
 
+import src.problemas.Liston;
 import src.problemas.Ej3;
 
 public class Tests3 {
 	
 	@Test
-	public void test2(){
-		assertEquals( 22 , Ej3.costo(10, new int[] {4,5,7,8}));
+	public void test3(){
+		Liston liston = new Liston(10, new int[] {4,5,7,8});
+		assertEquals( 22 , Ej3.cortarListon(liston));
 	}
 	
+	/*@Test
+	public void test2(){
+		Liston liston = new Liston(10, new int[] {4,5,7,8});
+		assertArrayEquals(  new int[] {7,5,7,4} , Ej3.cortarListon(liston));
+	}
+	*/
 
 }
