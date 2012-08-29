@@ -1,43 +1,74 @@
 package src.problemas;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Iterator;
 
 public class Ej3 {
 
-	public static List<Integer> cortarListon(int tam, List<Integer> cortes){
-		if (cortes.size() <= 1){
-			return cortes;
-		}else{
-			double m = tam/2;
-			Integer corte = corteCercanoAm(m,cortes);
-			int corte_i = cortes.indexOf(corte);
-			int tamCortes = cortes.size();
-			List<Integer> listaIzq = cortes.subList(0, corte_i);
-			List<Integer> listaDer = cortes.subList(corte_i+1, tamCortes);
-			List<Integer> res = new ArrayList<Integer>();
-			res.add(corte);
-			return aux.concat(res,cortarListon(corte,listaIzq),cortarListon(tam-corte,listaDer));
+	public static int[] cortarListon(Liston liston){
+		
+		
+		return liston.solucion;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	public static int costo(int largo, int[] cortes){
+		int[][] costo = new int[cortes.length][cortes.length];
+		for(int j = 0; j < (cortes.length); j++ ){
+			for(int i = 0; i < (cortes.length); i++ ){
+				costo[j][i] = Integer.MAX_VALUE;
+			}
 		}
+		return memoizedCosto(cortes, costo, 0, cortes.length-1, 0, largo);
 
 	}
 	
-	private static Integer corteCercanoAm(double m, List<Integer> cortes){
-		
-		Iterator<Integer> it = cortes.iterator();
-		double distMin = 2*m + 1;
-		Integer res = cortes.get(0);
-		while (it.hasNext()){
-			Integer corte = it.next();
-			double dist = Math.abs(m-corte.intValue());
-			if (dist < distMin){
-				distMin = dist;
-				res = corte;
+	public static int memoizedCosto(int[] cortes, int[][] costo, int i, int j, int izq, int der){
+		int z,x;
+		if (costo[0][costo.length-1] < Integer.MAX_VALUE){
+			return costo[0][costo.length-1];
+		}
+		if( i == j ){
+			if(cortes[i] == izq || cortes[j] == der){
+				return 0;
+			}else{
+				//System.out.println("lala ");
+				//System.out.println(der-izq);
+				return der - izq;
 			}
+		}else{
+			int q = Integer.MAX_VALUE;
+			for(int k = i; k < j; k++){
+				if (costo[i][k] < Integer.MAX_VALUE){
+					x = costo[i][k]; 
+				}else{
+					x = memoizedCosto(cortes, costo, i, k, izq, cortes[k]);
+				}
+				if (costo[k+1][j] < Integer.MAX_VALUE){
+					z = costo[k+1][j]; 
+				}else{
+					z = memoizedCosto(cortes, costo, k+1, j, cortes[k], der);
+				}
+				q = Math.min(q, x + z + (der-izq));
+			}
+			costo[i][j] = q;
+			//System.out.println(q);
+			return q;
 		}
 		
-		return res;
-	}
+		
 	
-}
+	
+	}
+	}
+
+		
+	
