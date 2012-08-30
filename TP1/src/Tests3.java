@@ -11,8 +11,8 @@ public class Tests3 {
 	
 	@Test
 	public void test3(){
-		Liston liston = new Liston(10, new int[] {4,5,7,8});
-		assertEquals( 22 , Ej3.cortarListon(liston));
+		Liston liston = new Liston(100, new int[] {25,50,75});
+		assertEquals( 150 , Ej3.cortarListon(liston));
 	}
 	
 	/*@Test
