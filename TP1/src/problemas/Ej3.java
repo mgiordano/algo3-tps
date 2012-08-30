@@ -1,22 +1,27 @@
 package src.problemas;
 
+import java.util.ListIterator;
+
 
 public class Ej3 {
 
 	public static int cortarListon(Liston liston){
 		
 		int m = liston.cantCortes()-1; 
-		int costo = memoizedCosto(liston, 0, m, 0, liston.largo).costo;
-		System.out.println(liston.dameCosto(0, m));
-		//reconstruirSol(liston,0,m);
-		//liston.imprimir(liston.costosK);
-		return costo;
+		CostoK solucion = memoizedCosto(liston, 0, m, 0, liston.largo);
+		
+		ListIterator<Integer> lit = solucion.K.listIterator();
+		while (lit.hasNext()){
+			System.out.println(liston.dameCorte(lit.next()));
+		}
+
+		return solucion.costo;
 	}
 	
 	public static CostoK memoizedCosto(Liston liston, int i, int j, int izq, int der){
 		CostoK cortesIzq = new CostoK(), cortesDer = new CostoK(), cortes_ij = new CostoK();
-		int m = liston.cantCortes()-1;
-		/*if (liston.dameCosto(0, m) < Integer.MAX_VALUE){
+		/*int m = liston.cantCortes()-1;
+		if (liston.dameCosto(0, m) < Integer.MAX_VALUE){
 			return liston.dameCostoK(0, m);
 		}*/
 		if( i == j ){
@@ -31,7 +36,6 @@ public class Ej3 {
 			int qAnt = Integer.MAX_VALUE;
 			int ktmp = 0, qAct;
 			for(int k = i; k < j; k++){
-			//	System.out.println(k);
 				if (liston.dameCosto(i,k) < Integer.MAX_VALUE){
 					cortesIzq = liston.dameCostoK(i,k); 
 				}else{
@@ -53,19 +57,6 @@ public class Ej3 {
 			return cortes_ij;
 		}
 	}
-	
-	public static void reconstruirSol(Liston liston, int i, int j){
-		
-		if (i == j){
-			System.out.print(liston.dameCorte(i)+" ");
-		}else{
-			reconstruirSol(liston,i,liston.dameSolucion(i,j));
-			reconstruirSol(liston,liston.dameSolucion(i,j)+1,j);
-		}
-		
-	}
-	
-}
 
-		
+}
 	

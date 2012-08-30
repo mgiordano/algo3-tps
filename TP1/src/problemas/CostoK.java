@@ -11,7 +11,8 @@ public class CostoK{
 	public CostoK(int costoVal, int k){
 		
 		costo = costoVal;
-		K = new ArrayList<Integer>(k);
+		K = new ArrayList<Integer>();
+		K.add(k);
 	}
 	
 	public CostoK (){
@@ -24,8 +25,8 @@ public class CostoK{
 		
 		CostoK res = new CostoK();
 		res.costo = val;
-		res.K.addAll(a.K);
 		res.K.add(k);
+		res.K.addAll(a.K);
 		res.K.addAll(b.K);
 		
 		return res;
