@@ -1,60 +1,54 @@
 package src.problemas;
 
-import java.util.ListIterator;
-
-
 public class Ej3 {
 
-	public static int cortarListon(Liston liston){
-		
+	public static Solucion cortarListon(Liston liston){
 		int m = liston.cantCortes()-1; 
-		CostoK solucion = memoizedCosto(liston, 0, m, 0, liston.largo);
-		
-		ListIterator<Integer> lit = solucion.K.listIterator();
-		while (lit.hasNext()){
-			System.out.println(liston.dameCorte(lit.next()));
-		}
-
-		return solucion.costo;
+		Solucion solucion = memoizedCosto(liston, 0, m, 0, liston.largo);
+		return solucion;
 	}
 	
-	public static CostoK memoizedCosto(Liston liston, int i, int j, int izq, int der){
-		CostoK cortesIzq = new CostoK(), cortesDer = new CostoK(), cortes_ij = new CostoK();
-		/*int m = liston.cantCortes()-1;
-		if (liston.dameCosto(0, m) < Integer.MAX_VALUE){
-			return liston.dameCostoK(0, m);
-		}*/
+	public static Solucion memoizedCosto(Liston liston, int i, int j, int izq, int der){	
+		Solucion solIzq = new Solucion(), solDer = new Solucion(), sol_ij = new Solucion();
+		//Dos casos base posible: se quiere cortar un extremo (invalido) o se realiza un solo corte en un liston.
 		if( i == j ){
 			if(liston.dameCorte(i) == izq || liston.dameCorte(j) == der){
-				CostoK corteInvalido = new CostoK();
+				Solucion corteInvalido = new Solucion();
 				return corteInvalido;
 			}else{
-				CostoK corteBase = new CostoK(der - izq, i);
+				Solucion corteBase = new Solucion(der - izq, liston.dameCorte(i));
 				return corteBase;
 			}
 		}else{
-			int qAnt = Integer.MAX_VALUE;
-			int ktmp = 0, qAct;
+			int costoAnt = Integer.MAX_VALUE;
+			int ktmp = 0, costoAct;
+			//En un conjunto de cortes asociado a un liston, busco cortar k-esimo tal que el costo sea optimo.
 			for(int k = i; k < j; k++){
-				if (liston.dameCosto(i,k) < Integer.MAX_VALUE){
-					cortesIzq = liston.dameCostoK(i,k); 
+				//Para ambos subproblemas generados (a izq y der de k), busco si la solParcial fue calculada
+				//sino se llama recursivamente para obtener el costo optimo.
+				if (liston.haySolucion(i,k)){
+					solIzq = liston.dameSolucion(i,k); 
 				}else{
-					cortesIzq = memoizedCosto(liston, i, k, izq, liston.dameCorte(k));
+					solIzq = memoizedCosto(liston, i, k, izq, liston.dameCorte(k));
 				}
-				if (liston.dameCosto(k+1,j) < Integer.MAX_VALUE){
-					cortesDer = liston.dameCostoK(k+1,j); 
+				if (liston.haySolucion(k+1,j)){
+					solDer = liston.dameSolucion(k+1,j); 
 				}else{
-					cortesDer = memoizedCosto(liston, k+1, j, liston.dameCorte(k), der);
+					solDer = memoizedCosto(liston, k+1, j, liston.dameCorte(k), der);
 				}
-				qAct = cortesIzq.costo + cortesDer.costo + (der-izq);
-				if (qAct < qAnt){
-					qAnt = qAct;
+				//Se calcula el costo final para ese corte k y se evalua si es menor a los calculado para los k anteriores
+				costoAct = solIzq.costo + solDer.costo + (der-izq);
+				if (costoAct < costoAnt){
+					costoAnt = costoAct;
 					ktmp = k;
-					cortes_ij = CostoK.combinar(cortesIzq,cortesDer,qAnt,ktmp);
+					//Si el costo fue optimo, se genera una nueva solucion combinando la historia de cortes de los
+					//subproblemas izq y der junto con el corte actual y la suma de esos costos.
+					sol_ij = Solucion.combinar(solIzq,solDer,costoAnt,liston.dameCorte(ktmp));
 				}
 			}
-			liston.insertarCostoK(i,j,cortes_ij);
-			return cortes_ij;
+			//Se guarda la solucion optima para el conjunto de cortes i al j.
+			liston.insertarSolucion(i,j,sol_ij);
+			return sol_ij;
 		}
 	}
 
