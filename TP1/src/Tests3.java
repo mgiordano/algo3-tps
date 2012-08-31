@@ -35,6 +35,8 @@ public class Tests3 {
 		assertEquals( 200 , solucion3.costo);
 		
 		aux.imprimirLista(solucion3.cortes);
+		
+		Ej3.resolverFile("./tests/Tp1Ej3.in");
 	}
 
 }

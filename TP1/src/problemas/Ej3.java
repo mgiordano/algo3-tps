@@ -1,5 +1,12 @@
 package src.problemas;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.util.List;
+import java.util.StringTokenizer;
+
 public class Ej3 {
 
 	public static Solucion cortarListon(Liston liston){
@@ -51,6 +58,54 @@ public class Ej3 {
 			return sol_ij;
 		}
 	}
+	
+	
+	public static void resolverFile(String file){
+		try{
+		BufferedReader reader = new BufferedReader( new FileReader(file) );
+		String linea;
+		BufferedWriter os = new BufferedWriter( new FileWriter( "Tp1Ej3.out" ) );
+		while ((linea = reader.readLine()) != null){
+			StringTokenizer st = new StringTokenizer( linea, " " );
+			int tamListon = Integer.parseInt(st.nextToken().trim());
+			linea = reader.readLine();
+			escribir( cortarListon(new Liston(tamListon, leer(linea) )), os);
+		}
+		os.close();
+		reader.close();
+		
+		}catch (Exception e){
+			System.err.println("Error: " + e.getMessage());
+		}
+	}
+	
+	public static int[] leer( String string ) {
+		
+		   StringTokenizer st = new StringTokenizer( string, " " );
+		   int tam = st.countTokens();
+		   int[] precios = new int[tam];
+		   int pos = 0;
+		   while (st.hasMoreTokens()){
+			   precios[pos] = Integer.parseInt(st.nextToken().trim());
+			   pos++;
+		   }
+		   return precios;
+		}
+				
+				
+		private static void escribir(Solucion solucion, BufferedWriter os){
+			try{
+				List<Integer> cortes = solucion.cortes;
+				for(int i = 0; i < cortes.size(); i++){
+					os.append(cortes.get(i).toString());
+					os.append(" ");
+				}
+				os.append('\n');
+				
+			}catch (Exception e){
+				System.err.println("Error: " + e.getMessage());
+			}
+		}
 
 }
 	
