@@ -1,13 +1,1 @@
 \section{Problema 1}
-
-\subsection{Introducción}
-\textit{Acá va la explicación de las ideas de forma clara, sencilla, estructurada y concisa. Se puede usar lenguaje coloquial o pseudocódigo, o combinar ambas herramientas. Esto debe ser lo suficiente para el desarrollo de los otros puntos, pero no excesivo.}\\
-
-La idea detrás de nuestra solución para el Problema 1 involucra recorrer la lista de precios una sola vez. Logramos concluir que podíamos separar el problema de la lista entera en sublistas crecientes, ya que no nos interesa cuando un precio cualquiera precede a otro precio inferior a él. De esta forma, creamos una variable que guarda la mejor ganancia a medida que se va avanzando. Dicha ganancia máxima empieza en 0 y se la pisa con la primer ganancia calculada, que luego es pisada nuevamente por las ganancias mejores que ella en caso de haberlas.\\
-\\
-\indent La ganancia se calcula de la siguiente forma:
-\begin{itemize}
-	\item Se recorre el arreglo de precios. Se setea la primera posición como posición de compra y de venta.
-	\item En cada iteración se guarda la ganancia actual según el último precio de compra y el precio de venta de esa posición.
-	\item En cada posición del mismo se mira si es mayor o menor que la anterior. Si es mayor, se toma como nuevo precio de venta, y la resta entre el precio de venta y el de compra es la ganancia de la sublista actual. Si es menor indica el inicio de una sublista nueva. Se toma como nuevo precio de compra y se guarda la ganancia en \textit{ganancia máxima} en caso de ser mayor que la ganancia máxima anterior.
-\end{itemize}
