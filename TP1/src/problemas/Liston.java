@@ -1,12 +1,10 @@
 package src.problemas;
 
-import java.util.List;
-
 public class Liston {
 
 	public int largo;
-	private int[] cortes;
-	public Solucion[][] solParciales;
+	public int[] cortes;
+	private Solucion[][] solParciales;
 	
 	//Constructor Liston
 		
@@ -16,11 +14,11 @@ public class Liston {
 		cortes = cortesInicial;
 		solParciales = new Solucion[m][m];
 		
-		for(int j = 0; j < m; j++ ){
-			for(int i = 0; i < m; i++ ){
+		for(int i = 0; i < m; i++ ){
+			for(int j = i; j < m; j++ ){
 				Solucion solIni = new Solucion();
 				solIni.costo = Integer.MAX_VALUE;
-				solParciales[j][i] = solIni;
+				solParciales[i][j] = solIni;
 			}
 		}
 	}
@@ -36,7 +34,7 @@ public class Liston {
 	}
 	
 	public boolean haySolucion(int i, int j){
-		return dameCosto(i,j) < Integer.MAX_VALUE;
+		return solParciales[i][j].costo < Integer.MAX_VALUE;
 	}
 	
 	public Solucion dameSolucion(int i, int j){
@@ -46,24 +44,5 @@ public class Liston {
 	public void insertarSolucion(int i, int j, Solucion sol){
 		solParciales[i][j] = sol;
 	}
-	
-	public List<Integer> obtenerListaK(int i, int j){
-		return solParciales[i][j].cortes;
-	}
-	
-	//Metodos no usados por el momento
-	
-	public int dameCosto(int i, int j){
-		return solParciales[i][j].costo;
-	}
-	
-	public void insertarCosto(int i, int j, int val){
-		solParciales[i][j].costo = val;
-	}
-	
-	public void insertarK(int i, int j, int val){
-		solParciales[i][j].cortes.add(val);
-	}
-	
 	
 }

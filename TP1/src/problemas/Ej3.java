@@ -8,16 +8,20 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 public class Ej3 {
+	
+	/*
+	 * Funciones para resolver el problema
+	 */
 
 	public static Solucion cortarListon(Liston liston){
-		int m = liston.cantCortes()-1; 
-		Solucion solucion = memoizedCosto(liston, 0, m, 0, liston.largo);
+		int m = liston.cantCortes(); 
+		Solucion solucion = memoizedCosto(liston, 0, m-1, 0, liston.largo);
 		return solucion;
 	}
 	
 	public static Solucion memoizedCosto(Liston liston, int i, int j, int izq, int der){	
 		Solucion solIzq = new Solucion(), solDer = new Solucion(), sol_ij = new Solucion();
-		//Dos casos base posible: se quiere cortar un extremo (invalido) o se realiza un solo corte en un liston.
+		//Dos casos base posibles: se quiere cortar un extremo (invalido) o se realiza un solo corte en un liston.
 		if( i == j ){
 			if(liston.dameCorte(i) == izq || liston.dameCorte(j) == der){
 				Solucion corteInvalido = new Solucion();
@@ -59,8 +63,17 @@ public class Ej3 {
 		}
 	}
 	
+	/*
+	 * Funciones para leer el input y escribir el output del Ejercicio 3
+	 */
 	
 	public static void resolverFile(String file){
+		/*
+		 * Esta funcion toma el path del archivo de entrada, procesa los datos y llama
+		 * a la función que resuelve el problema. Luego escribe los resultados en 
+		 * un archivo de salida en la carpeta root del proyecto
+		 */
+		
 		try{
 		BufferedReader reader = new BufferedReader( new FileReader(file) );
 		String linea;
@@ -83,29 +96,29 @@ public class Ej3 {
 		
 		   StringTokenizer st = new StringTokenizer( string, " " );
 		   int tam = st.countTokens();
-		   int[] precios = new int[tam];
+		   int[] cortes = new int[tam];
 		   int pos = 0;
 		   while (st.hasMoreTokens()){
-			   precios[pos] = Integer.parseInt(st.nextToken().trim());
+			   cortes[pos] = Integer.parseInt(st.nextToken().trim());
 			   pos++;
 		   }
-		   return precios;
+		   return cortes;
 		}
 				
 				
-		private static void escribir(Solucion solucion, BufferedWriter os){
-			try{
-				List<Integer> cortes = solucion.cortes;
-				for(int i = 0; i < cortes.size(); i++){
-					os.append(cortes.get(i).toString());
-					os.append(" ");
-				}
-				os.append('\n');
-				
-			}catch (Exception e){
-				System.err.println("Error: " + e.getMessage());
+	private static void escribir(Solucion solucion, BufferedWriter os){
+		try{
+			List<Integer> cortes = solucion.cortes;
+			for(int i = 0; i < cortes.size(); i++){
+				os.append(cortes.get(i).toString());
+				os.append(" ");
 			}
+			os.append('\n');
+			
+		}catch (Exception e){
+			System.err.println("Error: " + e.getMessage());
 		}
+	}
 
 }
 	

@@ -30,14 +30,16 @@ public class Ej1 {
 		}
 		return gananciaMax;
 	}
+	
 	/*
-	 * Funciones para leer y escribir el Ejercicio 1
+	 * Funciones para leer el input y escribir el output del Ejercicio 1
 	 */
 	
-	public static void resolver(String file){
+	public static void resolverFile(String file){
 		/*
-		 * Esta funcion toma el path del archivo de entrada y luego escribe
-		 * los resultados en un archivo de salida en la carpeta root del proyecto
+		 * Esta funcion toma el path del archivo de entrada, procesa los datos y llama
+		 * a la función que resuelve el problema. Luego escribe los resultados en 
+		 * un archivo de salida en la carpeta root del proyecto
 		 */
 		
 		try{

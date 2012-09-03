@@ -8,15 +8,15 @@ public class Solucion{
 	public int costo;
 	public List<Integer> cortes;
 	
+	public Solucion(){
+		costo = 0;
+		cortes = new ArrayList<Integer>();
+	}
+	
 	public Solucion(int costoVal, int corte){
 		costo = costoVal;
 		cortes = new ArrayList<Integer>();
 		cortes.add(corte);
-	}
-	
-	public Solucion(){
-		costo = 0;
-		cortes = new ArrayList<Integer>();
 	}
 	
 	public static Solucion combinar(Solucion a, Solucion b, int val, int corte){
