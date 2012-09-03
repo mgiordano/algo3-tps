@@ -12,3 +12,4 @@ TP1/.settings/
 *.pdf
 *.toc
 *.gz
+.backup
