@@ -25,9 +25,11 @@ public class Ej3 {
 		if( i == j ){
 			if(liston.dameCorte(i) == izq || liston.dameCorte(j) == der){
 				Solucion corteInvalido = new Solucion();
+				liston.insertarSolucion(i,j,corteInvalido);
 				return corteInvalido;
 			}else{
 				Solucion corteBase = new Solucion(der - izq, liston.dameCorte(i));
+				liston.insertarSolucion(i,j,corteBase);
 				return corteBase;
 			}
 		}else{
@@ -37,16 +39,14 @@ public class Ej3 {
 			for(int k = i; k < j; k++){
 				//Para ambos subproblemas generados (a izq y der de k), busco si la solParcial fue calculada
 				//sino se llama recursivamente para obtener el costo optimo.
-				if (liston.haySolucion(i,k)){
-					solIzq = liston.dameSolucion(i,k); 
-				}else{
-					solIzq = memoizedCosto(liston, i, k, izq, liston.dameCorte(k));
+				if (!liston.haySolucion(i,k)){
+					memoizedCosto(liston, i, k, izq, liston.dameCorte(k));
 				}
-				if (liston.haySolucion(k+1,j)){
-					solDer = liston.dameSolucion(k+1,j); 
-				}else{
-					solDer = memoizedCosto(liston, k+1, j, liston.dameCorte(k), der);
+				solIzq = liston.dameSolucion(i,k);
+				if (!liston.haySolucion(k+1,j)){
+					memoizedCosto(liston, k+1, j, liston.dameCorte(k), der);
 				}
+				solDer = liston.dameSolucion(k+1,j);
 				//Se calcula el costo final para ese corte k y se evalua si es menor a los calculado para los k anteriores
 				costoAct = solIzq.costo + solDer.costo + (der-izq);
 				if (costoAct < costoAnt){
