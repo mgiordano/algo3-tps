@@ -1,7 +1,5 @@
 package src;
 
-public class Tests3 {
-
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
