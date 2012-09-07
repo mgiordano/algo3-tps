@@ -49,6 +49,16 @@ public class Tests1 {
 	}
 	
 	@Test
+	public void casosPatologicos(){
+		//PEOR CASO (decreciente)
+		Ej1.buscarGanancia( new int[] { 30,29,28,27,26,25,24,23,22,21,20,19,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1 } );
+		//caso creciente
+		Ej1.buscarGanancia( new int[] { 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30});
+		//caso aleatorio
+		 Ej1.buscarGanancia( new int[] { 1,5,2,4,3,10,8,7,6,9,11,14,15,13,12,16,20,17,19,18,24,22,23,21,25,30,27,26,29,28});
+	}
+	
+	@Test
 	public void preciosFromFile(){
 
 		Ej1.resolverFile("./tests/Tp1Ej1.in");

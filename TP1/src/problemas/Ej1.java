@@ -76,7 +76,6 @@ public class Ej1 {
 		try{
 			Integer resInt = res;
 			os.append(resInt.toString());
-			System.out.println(res);
 			os.append('\n');
 			
 		}catch (Exception e){

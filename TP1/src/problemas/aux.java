@@ -9,7 +9,7 @@ public class aux {
 		
 		ListIterator<Integer> it = lista.listIterator();
 		while (it.hasNext()){
-			System.out.print(it.next()+" ");
+			System.out.print(it.next()+",");
 		}
 		System.out.println("");
 	}
