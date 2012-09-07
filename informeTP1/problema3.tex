@@ -54,10 +54,12 @@ Aunque se trate de dos funciones recursivas distintas, se podrá observar que es
 \subsection{Calculando las Subsoluciones}
 
 ¿Qué sucede a la hora de calcular las diversas subsoluciones de los subproblemas que se van planteando? Hasta aquí sólo se ha modelado una forma recursiva para resolver el problema, teniendo en cuenta que éste cumple el principio de optimalidad. ¿Pero acaso es esto mejor que la fuerza bruta, o backtracking, donde podríamos evaluar todas las permutaciones posibles? La respuesta es, por el momento, no. En la Figura \textbf{ACA VA NRO FIG} vemos un esquema del árbol de problemas que se va generando al evaluar el modelo recursivo antes descripto, llamando a $P[1,4,s]$. Se puede ver fácilmente como en diversos llamados de la función recursiva se repiten los subproblemas, lo cual implica que la función planteada hasta el momento debe resolver varios cómputos repetidas veces. Esta característica, \textsl{superposición de subproblemas}, es esencial para una solución de Programación Dinámica. A diferencia de un problema que se pudiera resolver con Divide \& Conquer, en que se generan nuevos y disjuntos subproblemas, aquí vemos como en realidad el espacio de subproblemas distintos es reducido.\\
-%\begin{figure}[h]
-%\centering                                                       
-%        \includegraphics[width=320pt]{./figs/overlapping.png}
-%\end{figure}
+
+\begin{figure}[h]
+\centering                                                       
+        \includegraphics[width=320pt]{./figs/p3overlapping.png}
+\end{figure}
+
 \indent Es posible ver que implementar directamente una solución basada en el modelo tal cual fue planteado hasta aquí tomaría tiempo exponencial respecto de $m$ \footnote{Si bien escapa a nuestro foco de análisis, puede encontrarse una demostración para el análogo problema de producto de matrices en \textit{Cormen...} (p. 386)}. Es así que el último ingrediente agregado a este modelo es una tabla o diccionario que recordará aquellos subproblemas calculados para que en caso de requerir una solución precomputada esté disponible en tiempo constante. De esta manera nuestra solución al problema es un algoritmo recursivo, \textsl{top down} ya que va partiendo los problemas grandes en subproblemas más pequeños, pero que a diferencia de la ineficiente versión original va 'recordando' o \textsl{memoizando} las soluciones para que otras ramas de las llamadas recursivas no tengan que recalcular lo mismo nuevamente. Más adelante, en el análisis de complejidad de nuestro algoritmo, se verá cuán importante es la mejora al introducir la \textsl{memoización} en términos de tiempo de cómputo (no así de memoria).
 
 \subsection{Estructuras y Seudocódigo}
