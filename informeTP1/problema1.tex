@@ -12,10 +12,15 @@ La idea detrás de nuestra solución para el Problema 1 involucra recorrer la li
 	\item En cada posición del mismo se mira si es mayor o menor que la anterior. Si es mayor, se toma como nuevo precio de venta, y la resta entre el precio de venta y el de compra es la ganancia de la sublista actual. Si es menor indica el inicio de una sublista nueva. Se toma como nuevo precio de compra y se guarda la ganancia en \textit{ganancia máxima} en caso de ser mayor que la ganancia máxima anterior.
 \end{itemize}
 
-\indent Observación: Por comodidad, cuando levantamos el archivo, lo pasamos a un arreglo, que es el que se le pasa a la función para resolver el costo.\\
+\indent Observación: Por comodidad, elgimos levantar los datos del archivo $.in$ y pasarlos a un arreglo que es el que se le pasa a la función para resolver el costo. En la sección complejidad podemos ver que encarar el ejercicio de esta manera, no conlleva a una complejidad mayor a la requerida por la cátedra.\\
+
+
+\clearpage
+
 
 \subsection{Complejidad}
-\indent Para analizar la complejidad del algoritmo planteado anteriormente, utilizaremos el siguiente pseudocódigo:
+\indent Antes de analizar la complejidad del algoritmo en si, analizaremos la complejidad de crear el arreglo para resolver el problema. Según la documentación de $Java$ pudimos observar que se puede crear un arreglo en $O(n)$ e indexar sus posiciones en $O(1)$. Teniendo en cuenta esto, podemos ver que el costo de crear un arreglo vacío mas el costo de llenarlo con los valores que queremos es $O(n)$ + $O(n)$ = $O(2n)$ que por el álgebra de ordenes es $O(n)$.\\
+\indent Ahora si, para analizar la complejidad del algoritmo planteado anteriormente, utilizaremos el siguiente pseudocódigo:
 
 \begin{algorithm}
 \caption{buscarGanancia (\textbf{in} precios: \textsl{int[]}) $\rightarrow$ res: \textsl{int}}
@@ -51,8 +56,10 @@ La idea detrás de nuestra solución para el Problema 1 involucra recorrer la li
 \indent Se puede ver claramente que estos casos son disjuntos porque al comparar por menor y mayor (nunca por igual) no puede pasar que un numero cumpla ambas condiciones.\\
 \indent La comparación por menor al mínimo, lleva a tener que hacer 2 indexaciones en el arreglo y 2 asignaciones de enteros, cuando la comparación de mayor al máximo lleva a tener 1 sola indexación y una asignación. Por lo tanto consideramos el peor caso, como un arreglo estrictamente decreciente, adonde se cumple siempre la guarda del primer $if$. Como estamos usando el modelo uniforme, en este caso tenemos $O(1)$ + $O(1)$ + $O(1)$ + $O(1)$ que por el álgebra de ordenes, es $O(1)$. \\                                                   
 \indent Luego hacemos una resta entre 2 enteros, nuevamente $O(1)$ y otra asignación. Si se cumple la guarda del ultimo $if$, nuevamente hacemos una comparación y una asignación, por lo tanto seguimos trabajando en tiempo constante.\\
-\indent Por lo visto anteriormente, podemos decir que la complejidad del cuerpo del ciclo es $O(1)$ y como este ciclo se ejecuta $n$ veces, concluimos que la complejidad total del algoritmo es $O(n)$.\\
+\indent Por lo visto anteriormente, podemos decir que la complejidad del cuerpo del ciclo es $O(1)$ y como este ciclo se ejecuta $n$ veces, concluimos que la complejidad total del ciclo es $O(n)$. Ahora bien, si sumamos la complejidad de crear el arreglo, mas la de resolverlo, tenemos: $O(n)$ + $O(n)$ = $O(2n)$ que por el álgebra de ordenes es $O(n)$.\\
+\indent Por lo tanto concluimos que la complejidad del algoritmo es $O(n)$.\\
 
+\clearpage
 
 \subsection{Análisis del tiempo de ejecución}
 
@@ -84,7 +91,7 @@ La idea detrás de nuestra solución para el Problema 1 involucra recorrer la li
 
 \begin{figure}[h]
 \centering                                                       
-        \includegraphics[width=340pt]{./figs/p1Tiempos.png}
+        \includegraphics[width=400pt]{./figs/p1Tiempos.png}
 	\caption{Gráfico de análisis de casos de test}
 	\label{fig:p1tiempos}
 \end{figure}

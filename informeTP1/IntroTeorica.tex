@@ -1,5 +1,59 @@
 \section{Introducción Teórica}
 
+
+\subsection{Grafos}
+
+\subsubsection{Conceptos Básicos}
+\indent Un grafo G está formado por un par (V(G), E(G)), donde:
+\begin{itemize}
+ \item V(G) es un conjunto finito, el conjunto de vértices de G.
+ \item E(G) es un conjunto de pares no ordenados de vértices distintos de G, llamados aristas, que se nota por $ij$ o $(i,j)$.
+\end{itemize}
+
+
+\subsubsection{Camino}
+\indent Un camino en un grafo G es una secuencia de vértices distintos P = $v_1$,$v_2$,...,$v_k$ donde ($v_i$,$v_{i+1}$) $\in$ E(G), i = 1,..., k-1. 
+
+
+\subsubsection{Distancia}
+\indent La longitud de un camino se mide por la cantidad de aristas que lo componen.\\
+\indent La distancia entre dos vértices v y w en G, es la longitud del camino mas corto entre v y w y se nota $d_G$(v, w). Si el contexto no es ambiguo, se abrevia d(v, w).
+
+\subsubsection{Matriz de adyacencia}
+\indent Dado un grafo F cuyos vertices estan numerados de 1 a n, definimos la matriz de adyacencia de G como M $\in$ ${0,1}^{nxn}$ donde M(i,j) = 1 si los vertices i y j son adyacentes y 0 en otro caso.
+
+\subsubsection{Listas de adyacencia}
+\indent Dado un vertice v de un grafo G, su lista de adyacencia esta compuesta por todas las aristas que se encuentran a distancia 1 de v.
+
+\subsubsection{BFS}
+El algortimo de búsqueda BFS (por sus siglas en inglés, Breadth-First Search)
+consiste en que dado un grafo $G= (V,E)$ y un vértice distinguido $s$, computa
+la distancia (mínimo camino entre dos vértices) desde $s$ hasta cualquier
+vértice que tenga algún camino simple que lo conecte con $s$.\\
+\indent El algoritmo recorre un vértice, lo analiza y luego realiza el mismo
+procedimiento con sus vértices adyacentes. Con el fin de no analizar 2 veces el
+mismo vértice y así trabajar sólo con caminos mínimos,el algoritmo BFS setea los
+vértices con distintos colores:
+
+\begin{itemize}
+\item \textit{blanco}: el análisis de vértices no abarcó este vértice en ninguna
+instancia.
+\item \textit{gris}: para indicar si ya ha sido encontrado y guardado en una
+cola para, posteriormente, realizar el análisis de sus vértices adyacentes.
+\item \textit{negro}:para indicar que ya se han guardado todos sus vértices
+adyacentes para su posterior análisis.
+\end{itemize}
+
+El procedimiento BFS va construyendo un árbol BF que tiene cómo raíz a
+$s$, como hijos directos de este a todos sus adyacentes, como hijos de esos a
+sus respectivos hijos, y así sucesivamente.\\
+\indent De esta forma, se crea una relación de orden entre los vértices, orden
+establecido por la distancia al vértice $s$ que posee cada uno. Así todos
+aquellos nodos que estén a distancia uno de $s$, estarán en el nivel 1 del árbol
+BF.
+
+\clearpage
+
 \subsection{Programación Dinámica}
 
 \subsubsection{¿Que es?}
