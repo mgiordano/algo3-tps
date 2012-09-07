@@ -73,7 +73,7 @@ Antes de analizar el algoritmo implementado y evaluar su complejidad, es importa
 \indent La complejidad de ambos constructores es constante. Por un lado el constructor vacío \textit{Solucion()} se trata de una asignación de un campo entero y la creación de un ArrayList vacío, lo cual crea una lista en base a un arreglo con capacidad para 10 elementos. Por el otro lado, el constructor que toma dos enteros realiza también una asignación a un campo y además de crear una lista vacía, le agrega el otro entero de la entrada (lo cual es, amortizado, O(1)).\\
 \indent Por último, esta clase tiene otra operación llamada \textit{Combinar(Solucion,Solucion,int,int)}. Si llamamos $s1$ y $s2$ a las soluciones de entrada, entonces la complejidad de esta operación es O($max$($\#$s1.cortes, $\#$s2.cortes)), ya que luego de crear la lista vacía, primero agrega el corte individual que vino en la entrada, y luego agrega (concatena) los cortes de s1, para luego agregar los de s2. Dado que agregar $n$ elementos demanda O($n$), la complejidad estará por la máxima cantidad de cortes que se encuentre entre las dos soluciones. Si tenemos en cuenta que se trata de subconjuntos de la cantidad de cortes inicial, la complejidad de peor caso de esta operación será O($m$).\footnote{Las complejidades de las clases de Java fueron tomadas de http://docs.oracle.com/javase/6/docs/api/}
 
-\subsection{Seudocódigos y Complejidades}
+\subsection{PSeudocódigos y Complejidades}
 
 \begin{algorithm}
 \caption{cortarListon (\textbf{in/out} liston: \textsl{Liston}) $\rightarrow$ res: \textsl{Solucion}}
@@ -130,4 +130,13 @@ Antes de analizar el algoritmo implementado y evaluar su complejidad, es importa
 \indent El segundo bloque, el cual va de la línea 12 a la 28, comprende casi la mayor parte de la función, y es el que se ocupa de verificar qué corte se debe realizar en esa llamada, actualizar la tabla de memoización y devolver una solución parcial. Salvo una asignación en O(1) al principio, el resto del bloque está comprendido por un sub-bloque iterativo. Supongamos que la complejidad de lo que se ejecuta en ese bloque es $T(F)$. Luego, como el ciclo itera entre $i$ y $j$, y estos a su vez están comprendidos entre $0$ y $m-1$, la complejidad de este bloque sería O($m * T(F)$). Ahora bien, veamos cuál es la complejidad dentro del ciclo.\\
 \indent Aquí es donde se produce el truco de la memoización, que nos ahorrará operar en tiempo exponencial (como se mostró antes) para llegar, idealmente y según veremos en pocas líneas, a tiempo polinomial. Tanto en las líneas 14-17, como 18-21, la función parte en el listón en el $k$-ésimo corte y luego busca en la tabla los costos de lo que queda a izquierda y a derecha. Si nunca lo calculó, deberá hacerlo mediante la recursión. Supongamos para el análisis que siempre encuentra la solución en la tabla. Entonces, hasta aquí, la complejidad dentro del ciclo es constante. Luego hace algunas cuentas con enteros y comparaciones, para en la línea 26 utiliza el método combinar, que según probamos en las estructuras demanada O($m$). De esta manera, con la suposición de que siempre encuentra los valores en la tabla, la complejidad del ciclo es O($m * m$), o sea O($m^2$). Finalmente la penúltima línea inserta la solución parcial en tiempo constante y la devuelve.\\
 \indent Suponiendo que los valores pedidos siempre están en la tabla (se acceden entonces en O(1)), llegamos a que $T(m) = O(m^2)$. Pero la realidad es que nuestra suposición no es del todo correcta, ya que al menos hay $m$ casos en los que para esos cortes se deben computar los subproblemas izquierdo y derecho por primera vez, con lo cual en realidad la complejidad es O($m * m^2$), lo que \textbf{finalmente da en el orden de} O($m^3$).
+
+\subsection{Análisis Toma de Tiempos}
+
+\begin{figure}[h]
+\centering                                                       
+        \includegraphics[width=320pt]{./figs/p3tiempos.png}
+	\caption{En este gráfico se ejemplifican algunas corridas para cierta cantidad de cortes}
+	\label{fig:p3tiempos}
+\end{figure}
 

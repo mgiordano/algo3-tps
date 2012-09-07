@@ -191,23 +191,32 @@ se encuentra dentro de la clase relaciones. Esta clase contiene:
 \footnote{Introduction to algorithms, Third Edition; Thomas H. Cormen}  de la
 siguiente forma:\\
 
-$BFS$(invfuente, invdestino)\\
-\indent\indent invfuente.estado = encontrado\\
-\indent\indent invfuente.distancia = 0\\
-\indent\indent cola= $\emptyset$ \\
-\indent\indent encolar(cola, invfuente)\\
-\indent\indent \textbf{while}  cola $\neq$ $\emptyset$\\
-\indent\indent\indent actual = desencolar(cola)\\
-\indent\indent\indent \textbf{for}  v $\in$ amigos(actual)\\
-\indent\indent\indent\indent\ \textbf{if} v.estado == no encontrado\\
-\indent\indent\indent\indent\indent v.estado = encontrado\\
-\indent\indent\indent\indent\indent v.distancia = actual.distancia +1\\
-\indent\indent\indent\indent\indent encolar (cola, v) \\
-\indent\indent\indent actual.estado = visitado\\ 
-\indent\indent \textbf{if} invdestino.distancia == $\infty$\\
-\indent\indent\indent return 0\\
-\indent\indent \textbf{else}\\ 
-\indent\indent\indent return invdestino.distancia\\
+\begin{algorithm}
+\caption{BFS (\textbf{in/out} source,destination: \textsl{Investigador}) $\rightarrow$ res: \textsl{int}}
+\begin{algorithmic}[1]
+
+\STATE $source.estado \leftarrow encontrado$
+\STATE $source.distancia \leftarrow 0$
+\STATE $cola \leftarrow \emptyset$
+\STATE $encolar(cola,source)$
+\WHILE{$cola \neq \emptyset$}
+	\STATE $actual \leftarrow desencolar(cola)$
+	\FORALL{$v \in amigos(actual)$}
+		\IF{$v.estado == no encontrado$}
+			\STATE $v.estado \leftarrow encontrado$
+			\STATE $v.distancia \leftarrow actual.distancia + 1$
+			\STATE $encolar(cola,v)$
+		\ENDIF
+	\ENDFOR
+	\STATE $actual.estado \leftarrow visitado$
+\ENDWHILE
+\IF{$destination.distancia == \infty$}
+	\RETURN $0$
+\ELSE
+	\RETURN $destination.distancia$
+\ENDIF
+\end{algorithmic}
+\end{algorithm}
 
 \subsection{Complejidad}
 \subsubsection{Análisis de complejidad}
