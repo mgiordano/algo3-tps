@@ -1,4 +1,6 @@
 \section{Problema 2}
+\indent Observación: Tuvimos problemas para implementar la lectura, resolución y escritura de un archivo, por lo que no presentamos la implementación de dicha funcionalidad en nuestro archivo $Tests2.java$.
+
 
 \subsection{Resolución}
 
@@ -9,7 +11,7 @@ ellos se verá fraccionado hasta, finalmente, generar un cierto entusiasmo en el
 otro. \\
 \indent Esto sucederá sólo en aquellos casos en los cuales estos investigadores
 tengan amigos en común. En caso de existir varias redes de amistades
-(entendiendose por red de amistad a una conexión de amistades entre ambos
+(entendiéndose por red de amistad a una conexión de amistades entre ambos
 investigadores, sin que haya investigadores repetidos), se debe estudiar el caso
 de la más corta, ya que esta red será la que generará el entusiasmo en el
 investigador antes que cualquier otra y con la mayor proporción. \\
@@ -38,37 +40,11 @@ amistades con algún criterio y que no repita ninguna amistad. Luego de
 contemplar varias opciones para tratar de solucionar este problema, nos dimos
 cuenta de que estaba mal pensado el problema, ya que la matriz carecía de toda la
 información relevante necesaria para realizar el algoritmo del recorrido de la
-misma. Incluso sabiendo qué amistad se había recorrido, era dificil establecer
+misma. Incluso sabiendo qué amistad se había recorrido, era difícil establecer
 un criterio de recorrido que nos diera el largo de la red de amistades más corta
 que conecta a 2 investigadores (luego explicamos por qué nos interesa ésta red
 en particular \footnote{ver Aplicación de BFS}.
 
-\subsubsection{BFS}
-El algortimo de búsqueda BFS (por sus siglas en inglés, Breadth-First Search)
-consiste en que dado un grafo $G= (V,E)$ y un vértice distinguido $s$, computa
-la distancia (mínimo camino entre dos vértices) desde $s$ hasta cualquier
-vértice que tenga algún camino simple que lo conecte con $s$.\\
-\indent El algoritmo recorre un vértice, lo analiza y luego realiza el mismo
-procedimiento con sus vértices adyacentes. Con el fin de no analizar 2 veces el
-mismo vértice y así trabajar sólo con caminos mínimos,el algoritmo BFS setea los
-vértices con distintos colores:
-
-\begin{itemize}
-\item \textit{blanco}: el análisis de vértices no abarcó este vértice en ninguna
-instancia.
-\item \textit{gris}: para indicar si ya ha sido encontrado y guardado en una
-cola para, posteriormente, realizar el análisis de sus vértices adyacentes.
-\item \textit{negro}:para indicar que ya se han guardado todos sus vértices
-adyacentes para su posterior análisis.
-\end{itemize}
-
-El procedimiento BFS va construyendo un árbol BF que tiene cómo raíz a
-$s$, como hijos directos de este a todos sus adyacentes, como hijos de esos a
-sus respectivos hijos, y así sucesivamente.\\
-\indent De esta forma, se crea una relación de orden entre los vértices, orden
-establecido por la distancia al vértice $s$ que posee cada uno. Así todos
-aquellos nodos que estén a distancia uno de $s$, estarán en el nivel 1 del árbol
-BF.\\
 
 \subsubsection{Aplicación de BFS al problema}
 \indent \Obs{\textit{Estudiando los casos de tests provistos por la cátedra, 
@@ -335,7 +311,8 @@ Luego la complejidad de la función BFS es
   \hline
 \end{tabular}
 \end{center}
-\indent En la tabla los casos 1-7 representan los casos del archivo $tp1ej2.in$.
-\indent Podemos observar claramente como influye que la complejidad es \Gather{O(k)*O(a) = O(cantidad\ de\ investigadores)*O(cantidad\ de\ amistades)} en el tiempo de ejecución. 
-Esto lo podemos ver como un claro ejemplo en el caso 1 adonde al no tener amistades tenemos un tiempo de muy bajo de $11ms$.
+
+\indent En la tabla los casos 1-7 representan los casos del archivo $tp1ej2.in$.\\
+\indent Podemos observar claramente como influye que la complejidad es \Gather{O(k)*O(a) = O(cantidad\ de\ investigadores)*O(cantidad\ de\ amistades)} en el tiempo de ejecución. \\
+\indent Esto lo podemos ver como un claro ejemplo en el caso 1 adonde al no tener amistades tenemos un tiempo de muy bajo de solo $11ms$.
 En cambio en los casos que mas investigadores y amistades tienen (casos 6 y 7) son los que mas tardan si los comparamos con los casos 1-5 que no tienen tantos investigadores/relaciones.
