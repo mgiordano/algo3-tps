@@ -45,7 +45,33 @@ return gananciaMax;
 \indent Por lo visto anteriormente, podemos decir que la complejidad del cuerpo del ciclo es $O(1)$ y como este ciclo se ejecuta $n$ veces, concluimos que la complejidad total del algoritmo es $O(n)$.\\
 
 
-\subsection{Analisis del tiempo de ejecución}
+\subsection{Análisis del tiempo de ejecución}
+
+\indent Para tomar los tiempos de este algoritmo nos encontramos con un problema. El algoritmo es muy rápido como para ser medido en milisegundos, que es la forma mas confiable de tomar un tiempo en $Java$. Para solucionar este problema, se nos ocurrió correr el algoritmo 1000000 de veces sobre un mismo caso y ver cuantos milisegundos toma. A continuación mostramos los tiempos obtenidos:\\
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+  \hline
+  Cantidad de días & Caso Decreciente $(ms)$   & Caso Creciente $(ms)$ & Caso Random $(ms)$ \\
+  \hline
+  1        & 39            & 34         & 37        \\
+  \hline
+  5        & 57            & 42         & 52        \\
+  \hline
+  10        & 67           & 60        & 63       \\
+  \hline
+  15        & 75            & 63        & 65        \\
+  \hline
+  20  	   & 90          & 70      & 78        \\
+  \hline
+  25        & 99            & 77        & 89        \\
+  \hline
+  30	   & 114          & 87      & 107        \\
+  \hline
+\end{tabular}
+\end{center}
+
+\indent Los resultados de la tabla anterior se pueden ver reflejados en el siguiente gráfico:
 
 \begin{figure}[h]
 \centering                                                       
@@ -53,6 +79,6 @@ return gananciaMax;
 \end{figure}
 
 
-
+\indent Viendo el gráfico, podemos comprobar la complejidad del algoritmo. Se ve que los tiempos tienen un comportamiento lineal como el esperado. También se puede observar que el peor caso es en el que los números son decrecientes, dado que como vimos en la parte de complejidad, es el caso que mas asignaciones y comparaciones hace. El caso en el que los números son crecientes, lo podemos observar como el mejor caso (linea verde) y como era de esperarse, un caso en el que los números no tienen un patrón definido, cae entre medio de los casos mencionados anteriormente. \\
 
 
