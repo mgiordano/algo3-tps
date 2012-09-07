@@ -75,10 +75,36 @@ Antes de analizar el algoritmo implementado y evaluar su complejidad, es importa
 
 \begin{algorithm}
 \caption{cortarListon (\textbf{in/out} liston: \textsl{Liston}) $\rightarrow$ res: \textsl{Solucion}}
-\begin{algorithmic}
+\begin{algorithmic}[1]
 
-\STATE $int m \leftarrow liston.cantCortes()$
+\STATE $ m \leftarrow liston.cantCortes()$
+\STATE $ solucion \leftarrow memoizedCosto(liston,0,m-1,0,liston.largo()$
+\RETURN $solucion$
 
 \end{algorithmic}
 \end{algorithm}
+
+\begin{algorithm}
+\caption{memoizedCosto (\textbf{in/out} liston: \textsl{Liston}, \textbf{in} i,j,izq,der: \textsl{int}) $\rightarrow$ res: \textsl{Solucion}}
+\begin{algorithmic}[1]
+
+\IF $i == j$
+	\IF $liston.dameCorte(i) == izq || liston.dameCorte(j) = der$
+		\STATE $corteInvalido \leftarrow Solucion()$
+		\STATE $liston.insertarSolucion(i,j,corteInvalido)$
+		\RETURN $corteInvalido$
+	\ELSEIF
+		\STATE $corteBase \leftarrow Solucion(der-izq, liston.dameCorte(i))$
+		\STATE $liston.insertarSolucion(i,j,corteBase)$
+		\RETURN $corteBase$
+\ELSEIF
+	\STATE $costoAnt \leftarrow \infty$
+		
+\STATE $ m \leftarrow liston.cantCortes()$
+\STATE $ solucion \leftarrow memoizedCosto(liston,0,m-1,0,liston.largo()$
+\RETURN $solucion$
+
+\end{algorithmic}
+\end{algorithm}
+
 	
