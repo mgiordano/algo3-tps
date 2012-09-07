@@ -1,0 +1,46 @@
+\section{Introducción Teórica}
+
+\subsection{Programación Dinámica}
+
+\subsubsection{¿Que es?}
+\indent La Programación Dinámica es una combinación entre algoritmos golosos y algoritmos de fuerza fruta, que logra un mejor desempeño al de las técnicas anteriormente mencionadas, si se utilizan por si solas.
+
+\subsubsection{¿A que problemas aplica?}
+\indent Aplica a problemas de optimización donde obtenemos una solución utilizando una serie de decisiones. A medida que tomamos estas decisiones, surgen nuevos subproblemas con la misma forma del problema original.
+
+\subsubsection{Diferencias con otras técnicas de programación}
+\indent La principal diferencia con los algoritmos golosos y de fuerza fruta es que en Programación Dinámica guardamos los resultados de los subproblemas para, en el caso en el que vuelvan a aparecer, no tener que recalcularlos. Esta idea de guardar los valores ya computados, usa mas memoria, pero logra disminuir considerablemente el tiempo de ejecución de nuestros algoritmos.
+
+\subsubsection{Principio de Optimalidad}
+\indent ``Dada una secuencia óptima de decisiones, toda subsecuencia de ella es, a su vez, óptima.''. Si este principo se cumple para un determinado problema, es un claro indicador de que Programación Dinámica nos podria llevar a un algoritmo eficiente para resolverlo. Para analizar en que casos se cumple este principio, podemos tener en cuenta los siguientes pasos:
+
+\begin{enumerate}
+ \item Mostrar que la solución al problema consiste en tomar una decisión. Tomando cada decisión, nos deja con uno o mas subproblemas a resolver.
+ \item Suponemos que para un problema dado, nos dan la elección que lleva a la solución óptima. Todavía no nos ocupamos de como se encontró esa elección, solo de que la tenemos.
+ \item Dada la elección del punto anterior, determinamos qué subproblemas se van dando y cuál es la mejor manera de caracterizar el espacio resultante de subproblemas.
+ \item Demostramos que las soluciones a los subproblemas, habiendo derivado de subsoluciones óptimas, tienen que ser soluciones óptimas. Una forma para demostrar esto, es por el absurdo. Podemos suponer que las soluciones a los subproblemas no son óptimas y llegar a una contradicción. 
+\end{enumerate}
+
+
+\subsubsection{Superposicion de problemas}
+\indent Otra característica importante para aplicar Programación Dinámica, es superposición de problemas. Esto quiere decir que el espacio de 
+subproblemas tiene que ser ``chico'' en el sentido de que el algoritmo recursivo para el problema, resuelve los mismos subproblemas una y otra vez, en vez
+de generar nuevos subproblemas. Cuando un algoritmo recursivo vuelve a evaluar un subproblema dado, decimos que el problema de optimización tiene superposición de problemas.
+
+\subsubsection{Top-down Memoized solution}
+\indent Un algoritmo es top-down cuando se parte de un problema grande y se resuelven recursivamente subproblemas mas chicos para luego juntar las soluciones y así obtener la solución al problema original.\\
+\indent Una solución $memoizada$ de un problema de Programación Dinámica, mantiene una tabla para guardar la solución a cada subproblema. Inicialmente cada
+entrada contiene un valor especial para indicar que el valor de dicha posición todavía no fue computado. Cuando un subproblema necesita un valor anterior,
+lo busca en la tabla y si encuentra este valor especial, computa el valor óptimo y lo guarda en la tabla. Si el valor requerido ya había sido calculado, simplemente se obtiene y se usa.\\
+\indent Podemos combinar ambas técnicas para conseguir una solución a nuestro problema que sea de la forma $top-down$ $Memoized$.
+
+
+
+
+
+
+
+
+
+
+
