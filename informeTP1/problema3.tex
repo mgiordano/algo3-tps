@@ -73,7 +73,7 @@ Antes de analizar el algoritmo implementado y evaluar su complejidad, es importa
 \indent La complejidad de ambos constructores es constante. Por un lado el constructor vacío \textit{Solucion()} se trata de una asignación de un campo entero y la creación de un ArrayList vacío, lo cual crea una lista en base a un arreglo con capacidad para 10 elementos. Por el otro lado, el constructor que toma dos enteros realiza también una asignación a un campo y además de crear una lista vacía, le agrega el otro entero de la entrada (lo cual es, amortizado, O(1)).\\
 \indent Por último, esta clase tiene otra operación llamada \textit{Combinar(Solucion,Solucion,int,int)}. Si llamamos $s1$ y $s2$ a las soluciones de entrada, entonces la complejidad de esta operación es O($max$($\#$s1.cortes, $\#$s2.cortes)), ya que luego de crear la lista vacía, primero agrega el corte individual que vino en la entrada, y luego agrega (concatena) los cortes de s1, para luego agregar los de s2. Dado que agregar $n$ elementos demanda O($n$), la complejidad estará por la máxima cantidad de cortes que se encuentre entre las dos soluciones. Si tenemos en cuenta que se trata de subconjuntos de la cantidad de cortes inicial, la complejidad de peor caso de esta operación será O($m$).\footnote{Las complejidades de las clases de Java fueron tomadas de http://docs.oracle.com/javase/6/docs/api/}
 
-\subsection{PSeudocódigos y Complejidades}
+\subsection{Pseudocódigos y Complejidades}
 
 \begin{algorithm}
 \caption{cortarListon (\textbf{in/out} liston: \textsl{Liston}) $\rightarrow$ res: \textsl{Solucion}}

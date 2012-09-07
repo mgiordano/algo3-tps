@@ -17,7 +17,7 @@ investigador antes que cualquier otra y con la mayor proporción. \\
 red de amistad entre ambos, entonces el entusiasmo generado en uno nunca llegará
 al otro, es decir la fracción de entusiasmo que le generará al investigador
 destinatario será cero o, como se ha establecido, se indicará con $0$ la
-cantidad de veces que éste se verá fraccionado. \\
+cantidad de veces que éste se verá fraccionado.
 
 \subsubsection{Primeros intentos de solución}
 \indent En una primera aproximación al problema, pensamos en aplicar el
@@ -170,7 +170,8 @@ los vuelva a encolar.
 
 \subsubsection{Pseudocódigo}
 
-\indent Para resolver el problema, utilizamos una función  llamada BFS, que toma
+\indent Para resolver el problema, utilizamos una función  llamada BFS \footnote{Es una adaptación del modelo en: Cormen, Thomas... [et al]; \textit{Introduction to Algorithms}, Cambridge, MIT Press, 2009; (p\'ag. 595)}
+, que toma
 2 datos de tipo investigador. donde investigador es una clase que posee la
 siguiente información sobre el investigador:
 \begin{itemize}
@@ -181,15 +182,11 @@ siguiente información sobre el investigador:
 \end{itemize}
 \indent La función que resuelve el problema propiamente dicho, se llama BFS, y
 se encuentra dentro de la clase relaciones. Esta clase contiene:
-
 \begin{itemize}
 \item una lista de todos los investigadores.
 \item un investigador fuente.
 \item un investigador destino.
 \end{itemize}
-\indent La función BFS lo que hace es una traducción del algortimo de BFS
-\footnote{Introduction to algorithms, Third Edition; Thomas H. Cormen}  de la
-siguiente forma:\\
 
 \begin{algorithm}
 \caption{BFS (\textbf{in/out} source,destination: \textsl{Investigador}) $\rightarrow$ res: \textsl{int}}
