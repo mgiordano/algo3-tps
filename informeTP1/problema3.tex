@@ -133,10 +133,12 @@ Antes de analizar el algoritmo implementado y evaluar su complejidad, es importa
 
 \subsection{Análisis Toma de Tiempos}
 
+\indent Para correr el algoritmo, hicimos 1000 corridas de cada caso para poder tener un tiempo estimativo en milisegundos, dado que si corrìamos una sola vez los casos, el tiempo era insignificante (para poca cantidad de cortes).\\
+\indent A continuacion presentamos el grafico obtenido para un liston de tamaño 200 variando el parámetro $m$ (cant. de cortes) entre 3, 6, 10, 15, 19, 27 y 36:
 \begin{figure}[h]
 \centering                                                       
         \includegraphics[width=320pt]{./figs/p3tiempos.png}
 	\caption{En este gráfico se ejemplifican algunas corridas para cierta cantidad de cortes}
 	\label{fig:p3tiempos}
 \end{figure}
-
+\indent Al realizar el gràfico, nos llevamos la sorpresa de que la gràfica resultante parecìa no ser cúbica. Luego de realizar varias pruebas notamos que el comportamiento de los tiempos que obteníamos no era tan regular como esperábamos (a diferencia por ejemplo del primer problema). Si bien no sabemos con certeza a qué atribuirlo, algunas de las hipótesis con que contamos es que la metodología para contar los tiempos no fuera la correcta, o que no hubieramos dispuesto una distribución uniforme de los casos de prueba. Esto es, si bien variamos el parámetro $m$, desconocemos qué relación puede existir con la longitud del listón. Si bien por el modelado y el análisis expuesto esto no infiere directamente, podría ser que lo haga la densidad o distribución de cortes dada la superficie del listón.\\
