@@ -20,6 +20,28 @@ destinatario será cero o, como se ha establecido, se indicará con $0$ la
 cantidad de veces que éste se verá fraccionado. \\
 
 \subsubsection{Primeros intentos de solución}
+\indent En una primera aproximación al problema, pensamos en aplicar el
+concepto de matrices de incidencia,
+teniendo como índices a los investigadores por un lado y a las amistades por el
+otro.\\
+\indent Este clase de solución nos parecía productiva ya que al utilizar una
+matriz, tanto para rellenarla en su totalidad como para recorrerla, los
+algoritmos tienen una complejidad lineal O($m*n$), con $m$= cantidad de
+amistades y $n$=cantidad de investigadores, quedando en evidencia que dicha
+implementación cumplía la cota de complejidad pedida. \\
+\indent Esta solución fue descartada una vez ya empezada su implementación.
+Luego de buscar alguna estructura adecuada para representar a la matriz,
+decidimos utilizar un diccionario de clave investigador y significado Lista de
+amigos.\\
+\indent El problema surgió a la hora de pensar un algoritmo para recorrer las
+amistades con algún criterio y que no repita ninguna amistad. Luego de
+contemplar varias opciones para tratar de solucionar este problema, nos dimos
+cuenta de que estaba mal pensado el problema, ya que la matriz carecía de toda la
+información relevante necesaria para realizar el algoritmo del recorrido de la
+misma. Incluso sabiendo qué amistad se había recorrido, era dificil establecer
+un criterio de recorrido que nos diera el largo de la red de amistades más corta
+que conecta a 2 investigadores (luego explicamos por qué nos interesa ésta red
+en particular \footnote{ver Aplicación de BFS}.
 
 \subsubsection{BFS}
 El algortimo de búsqueda BFS (por sus siglas en inglés, Breadth-First Search)
@@ -64,31 +86,26 @@ investigadores) de $G$ y $E$ un conjunto de pares de vértices(aka amistad entre
 \indent Dada una red de amigos, para saber cuántas veces se fracciona a la mitad
 el entusiasmo del investigador $v_1$ hasta que recibe una porción de este el
 investigador $v_n$, asumiendo que $v_1$ y $v_n$ tienen una red que los conecta,
-tenemos la siguiente recursión:
+tenemos la siguiente caracterización:
 \begin{itemize}
  \item Si $v_1$ es amigo de $v_n$, entonces $v_n$ recibe la mitad del entusiasmo
 de $v_1$, 
  ya que esta se divide a la mitad una sola vez y, a su vez, existe una única
 arista en el camino que conecta a ambos.
  \item Si no son amigos, entonces cada uno de los amigos de $v_1$ reciben la
-mitad del 
- entusiasmo de $v_1$. Asumamos que $v_n$ se encuentra a distancia $n-1$ de $v_1$
-y 
- tomemos el único amigo de $v_1$, siendo este
- uno de los vértices del camino mínimo que une a $v_1$ con $v_n$,
- al que llamaremos $v_2$. 
- Entre $v_1$ y $v_2$ hay una arista ($v_2$ se encuentra a distancia 1 de $v_1$)
-y el
- entusiasmo de $v_1$ se fracciona una sola vez.
- Ahora, entre $v_2$ y su amigo $v_3$, siendo este
- uno de los vértices del camino mínimo que une a $v_1$ con $v_n$, entre $v_2$ y
-$v_3$
- hay una arista ($v_3$ se encuentra a distancia 1 de $v_2$). Entonces, entre
-$v_3$ y $v_1$ 
- hay 2 aristas ($v_3$ se encuentra a distancia 2 de $v_1$) y el
- entusiasmo de $v_1$ se fracciona una vez más que para $v_2$, es decir el
- entusiasmo de $v_1$ se fracciona 2 veces hasta llegar a $v_3$. Generalizando,
- para cualquier amigo $v_k$, con 2 $\leq$ k $\leq$ n:
+mitad del entusiasmo de $v_1$. Asumamos que $v_n$ se encuentra a distancia $n-1$
+de $v_1$ y tomemos el único amigo de $v_1$, siendo este uno de los vértices del
+camino mínimo que une a $v_1$ con $v_n$, al que llamaremos $v_2$. \\ 
+\indent\indent Entre $v_1$ y $v_2$ hay una arista ($v_2$ se encuentra a
+distancia 1 de $v_1$) y el entusiasmo de $v_1$ se fracciona una sola vez. Ahora,
+entre $v_2$ y su amigo $v_3$, siendo este uno de los vértices del camino mínimo
+que une a $v_1$ con $v_n$, entre $v_2$ y $v_3$ hay una arista ($v_3$ se
+encuentra a distancia 1 de $v_2$). Entonces, entre $v_3$ y $v_1$ hay 2 aristas
+($v_3$ se encuentra a distancia 2 de $v_1$) y el entusiasmo de $v_1$ se
+fracciona una vez más que para $v_2$, es decir el entusiasmo de $v_1$ se
+fracciona 2 veces hasta llegar a $v_3$. \\
+\indent\indent Generalizando, para cualquier amigo $v_k$, con 2 $\leq$ k $\leq$
+n:
  \begin{itemize}
   \item entre $v_k$ y $v_1$ hay k-1 aristas, es decir, se encuentran a distancia
 k-1;
@@ -114,9 +131,7 @@ entusiasmará con un nivel
 
 \indent Nuestra implementación trabaja con listas de adyacencia. Cada
 investigador tiene asociada una lista donde están almacenados sus amigos (los
-vértices adyacentes).\\
-
-\indent En nuestra implementación, los investigadores poseen un campo estado que
+vértices adyacentes). Además, los investigadores poseen un campo estado que
 puede tener alguno de los siguientes valores:
 
 \begin{itemize}
@@ -144,15 +159,19 @@ análisis.
 
 \indent Una vez visitados todos los investigadores, se tiene como
 postcondición que a todos se les ha seteado la distancia a $s$. En caso de que
-no existiera un 
-camino hacia $s$, la distancia por defecto no se modifica. 
-El resultado de la función es el campo distancia del investigador destinatario
-en caso de existir
-un camino entre él y $s$, o 0 en caso contrario.
+no existiera un camino hacia $s$, la distancia por defecto no se modifica.\\ 
+\indent El resultado de la función es el campo distancia del investigador
+destinatario en caso de existir un camino entre él y $s$, o 0 en caso
+contrario.\\
+\indent Es importante notar que los investigadores se encolan y desencolan una
+sola vez, ya que una vez encolados se los marca como "encontrado", y una vez
+desencolado se los marca como "visitado", evitando así que en otra iteración se
+los vuelva a encolar.
 
-\subsubsection{Pseudoalgoritmo}
+\subsubsection{Pseudocódigo}
+
 \indent Para resolver el problema, utilizamos una función  llamada BFS, que toma
-2 datos de tipo investigador, donde investigador es una clase que posee la
+2 datos de tipo investigador. donde investigador es una clase que posee la
 siguiente información sobre el investigador:
 \begin{itemize}
 	\item nombre
@@ -196,7 +215,10 @@ $BFS$(invfuente, invdestino)\\
 siguientes criterios:
 \begin{itemize}
  \item Asignar valores enteros o chars acotados y comparar chars acotados
- tienen complejidad O(1)
+ tienen complejidad O(1). Los chars que comparamos son acotados por la
+ longitud de ''no encontrado'' que es 13, ya que solo se
+ comparan 3 strings posibles: ''encontrado'', ''visitado'' y ''no encontrado'', y
+ el más largo es este último
  \item Pedir alguna de las variables del tipo Investigador tiene una complejidad
 $O(1)$, 
  ya que se puede acceder a estas directamente.
@@ -204,22 +226,22 @@ $O(1)$,
  O($|$nombre$|$)+O($|$estado$|$)+O(crear una lista vacia)+O(pedir max value)=
  O(1)+O(1)+O(crear una lista vacia)+O(1)= O(crear una lista vacia) ;
  ya que los nombres de los investigadores y los strings que indican el estado
- son strings acotados por el más largo, que sabemos que será finito, por ende toman O(1), y
+ son strings acotados por el más largo, que sabemos que será finito, por ende
+toman O(1), y
  pedir el max value toma O(1)
  \item Las funciones del tipo genérico ''Queue''tienen la siguiente complejidad:
- \subitem crear una cola= O(crear lista enlazada)
- \subitem ver si es vacía= O()
- \subitem encolar= O()
- \subitem desencolar= O()
- \item Las funciones del tipo genérico ''Linked List'' tienen
+ \subitem crear una cola= O(crear lista enlazada)= O(1)
+ \subitem ver si es vacía= O(1)
+ \subitem encolar= O(1)
+ \subitem desencolar= O(1)
+ \item Las funciones del tipo genérico
+''ArrayList''\footnote{http://docs.oracle.com/javase/6/docs/api/, java.utils,
+ArrayList}  tienen
  la siguiente complejidad:
- \subitem crear una lista enlazada vacía= O()
- \subitem pedir el índice de un elemento= O()
- \item  Las funciones del tipo genérico ''List Iterator'' tienen
- la siguiente complejidad:
- \subitem crear un iterador a una lista= O()
- \subitem ver si hay siguiente= O()
- \subitem avanzar el iterador= O()
+ \subitem crear iterador sobre ella = O(1)
+ \subitem pedir el elemento de un índice= O(1)
+ \subitem ver si hay siguiente= O(1)
+ \subitem avanzar el iterador= O(1)
  
 \end{itemize}
 
@@ -229,32 +251,49 @@ la función BFS, todas las líneas tienen complejidad O(1)\\
 complejidad de los mismos\\
 
 %ESTO PARA ABAJO CAMBIA SI ALGUNA DE LAS FUNCIONES DENTRO DEL WHILE NO TOMA O(1)
-\indent La complejidad del while más grande está determinada por la cantidad de veces que itera 
-y cada iteración toma O(cantidad de iteraciones del while anidado), es por esto que
+\indent La complejidad del while más grande está determinada por la cantidad de
+veces que itera 
+y cada iteración toma O(cantidad de iteraciones del while anidado), es por esto
+que
 primero realizaremos el análisis del while anidado.\\
 
-\indent El while anidado itera la lista de adyacencia de cada investigador $i$, entonces
+\indent El while anidado itera la lista de adyacencia de cada investigador $i$,
+entonces
 el while iterará $a_i$ veces, donde $a_i$ es el largo
 de la lista de adyacencia de $i$.\\
 
-\indent Ahora podemos determinar la complejidad del while más abarcativo. Como habíamos
+\indent Ahora podemos determinar la complejidad del while más abarcativo. Como
+habíamos
 establecido antes, la complejidad de este será 
-\Gather{O(cantidad\ de\ veces\ que\ itera) * O(cantidad\ de\ veces\ que\ itera\ el\ while\ anidado)}
+\Gather{O(cantidad\ de\ veces\ que\ itera) * O(cantidad\ de\ veces\ que\ itera\
+el\ while\ anidado)}
 
-\indent Este ciclo iterará hasta que la cola $c$ quede vacía. $C$ es la cola donde se irá guardando
-sólo una vez los investigadores. Entonces esta cola no quedará vacía hasta que se haya encolado y desencolado 
-a todos los investigadores de ella. Por ende, este while itera tantas veces como investigadores haya.\\
+\indent Este ciclo iterará hasta que la cola $c$ quede vacía. $C$ es la cola
+donde se irá guardando
+sólo una vez los investigadores. Entonces esta cola no quedará vacía hasta que
+se haya encolado y desencolado 
+a todos los investigadores de ella. Por ende, este while itera tantas veces como
+investigadores haya.\\
 
-\indent Además, por cada iteración, este while toma una complejidad O($a_i$), donde $a_i$ es el largo
+\indent Además, por cada iteración, este while toma una complejidad O($a_i$),
+donde $a_i$ es el largo
 de la lista de adyacencia de $i$, que es el
-investigador que se ha desencola ni bien se entra en el while. Como este while itera una vez para cada investigador,
+investigador que se ha desencola ni bien se entra en el while. Como este while
+itera una vez para cada investigador,
 la complejidad que tomará finalmente será 
-\Gather{(\sum_{i=1}^{k}(a_i))* k}, donde k es la cantidad de investigadores.
+\Gather{O(k*(\sum_{i=1}^{k}(a_i)))} donde k es la cantidad de investigadores.
 
-\indent Observar que la sumatoria, es una sumatoria de todas las listas de adyacencia, entonces, su resultado es 2a,
-ya que recorre 2 veces cada amistad (una vez por cada investigador involucrado), como 2 es una constante, no afecta
-en la complejidad temporal de la función. 
+\indent Observar que la sumatoria, representa a la suma del largo de la lista de
+adyacencia de cada investigador, ya que en cada iteración del while se recorre
+la lista de adyacencia de un investigador y esto se realiza una única vez para
+todo investigador, entonces su resultado es 
+\Gather{O(\sum_{i=1}^{k}(a_i))= O(2a)}
+siendo $a$ la cantidad de amistades total. Esto se debe a que se recorre 2 veces cada
+amistad (una vez por cada investigador involucrado),pero como 2 es una
+constante, no afecta
+en la complejidad temporal de la función. Luego, tenemos que:
+\Gather{O(\sum_{i=1}^{k}(a_i))= O(a)}
 Luego la complejidad de la función BFS es 
-\Gather{O(cantidad\ de\ investigadores)*O(cantidad\ de\ amistades)}
+\Gather{O(k)*O(a) = O(cantidad\ de\ investigadores)*O(cantidad\ de\ amistades)}
 
 \subsection{Análisis de casos de test}
