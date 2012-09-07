@@ -51,7 +51,7 @@ public class Tests1 {
 	@Test
 	public void preciosFromFile(){
 
-		Ej1.resolver("./tests/Tp1Ej1.in");
+		Ej1.resolverFile("./tests/Tp1Ej1.in");
 		
 	}
 
