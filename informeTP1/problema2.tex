@@ -302,4 +302,40 @@ en la complejidad temporal de la función. Luego, tenemos que:
 Luego la complejidad de la función BFS es 
 \Gather{O(k)*O(a) = O(cantidad\ de\ investigadores)*O(cantidad\ de\ amistades)}
 
-\subsection{Análisis de casos de test}
+\subsection{Análisis del tiempo de ejecución}
+\indent Al igual que para el ejercicio 1, corrimos los casos de test 1000 veces para poder obtener un tiempo que sea significativo de mostrar en $ms$. A continuación presentamos el caso de prueba all vs all:
+
+\begin{figure}[h]
+\centering                                                       
+        \includegraphics[width=130pt]{./figs/todosVStodos.png}
+	\caption{Aquí se representa el grafo correspondiente al caso de test 'AllvsAll'}
+	\label{fig:tvst}
+\end{figure}
+\indent Teniendo en cuenta este caso y los proporcionados por la cátedra, realizamos las corridas para evaluar su tiempo de ejecución.
+\begin{center}
+\begin{tabular}{|c|c|}
+  \hline
+  Caso de test & Tiempo de ejecución de 1000 corridas $(ms)$   \\
+  \hline
+  1        &  11   \\
+  \hline
+  2        & 213\\
+  \hline
+  3        & 370      \\
+  \hline
+  4        & 350        \\
+  \hline
+  5  	   & 384    \\
+  \hline
+  6        & 665\\
+  \hline
+   7 	& 628        \\
+  \hline  
+  all vs all 	& 152        \\
+  \hline
+\end{tabular}
+\end{center}
+\indent En la tabla los casos 1-7 representan los casos del archivo $tp1ej2.in$.
+\indent Podemos observar claramente como influye que la complejidad es \Gather{O(k)*O(a) = O(cantidad\ de\ investigadores)*O(cantidad\ de\ amistades)} en el tiempo de ejecución. 
+Esto lo podemos ver como un claro ejemplo en el caso 1 adonde al no tener amistades tenemos un tiempo de muy bajo de $11ms$.
+En cambio en los casos que mas investigadores y amistades tienen (casos 6 y 7) son los que mas tardan si los comparamos con los casos 1-5 que no tienen tantos investigadores/relaciones.
