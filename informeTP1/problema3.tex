@@ -1,5 +1,56 @@
 \section{Problema 3}
 
+\subsection{Primeras Consideraciones}
+
+En un temprano intento por resolver este problema diseñamos un procedimiento que buscara el punto medio del list\'on considerado y tomara como corte \'optimo en ese instante aquel que se ubicara lo m\'as cerca del punto medio. Si bien esta idea distaba de ser correcta para el problema (se tardar\'ia un tiempo en detectar que uno de los casos de test romp\'ia este modelo), nos permiti\'o acercarnos a la idea de resolverlo mediante recursi\'on. En definitiva, la funci\'on deb\'ia tomar un liston de largo \textit{n} y un conjunto de cortes dentro de ese rango, para luego elegir uno mediante la decisi\'on explicada y luego llamar recursivamente sobre los listones \textit{$n_1$} y \textit{$n_2$}, determinados al realizar el corte, junto con los conjuntos de cortes correspondientes a cada rango. Visto de esta manera, se trataba de un enfoque \textit{Divide \& Conquer} en que la soluci\'on se ir\'ia construyendo al ir concatenando en una lista los cortes elegidos en cada llamada de la funci\'on.
+
+\indent Pronto identificar\'iamos el err\'oneo an\'alisis de la situaci\'on y, al detectar que se trataba de un problema de optimizaci\'on un tanto m\'as complejo, acudir\'iamos a la t\'ecnica de \textit{\textsl{Programaci\'on Din\'amica}}, bajo la cual modelamos e implementamos el problema, tal como se describe a continuaci\'on. \footnote{El an\'alisis de modelado y resoluci\'on del problema mediante PD ha sido tomado y adaptado del libro: Cormen, Thomas... [et al]; \textit{Introduction to Algorithms}, Cambridge, MIT Press, 2009; (p\'ags. 359 - 390)}
+
+
+\subsection{Estructura de Permutaci\'on \'Optima}
+
+Como se ha mencionado, los parámetros de este problema son un listón de largo $n$ y un conjunto de cortes $C$ ordenados de menor a mayor, tal que además $\#C = m$.  Dejando la consideración de costo de lado, una solución a este problema estría dada por una permutación del orden de los cortes que se quieren realizar, con lo cual en principio nos encontramos con $m!$ soluciones posibles. Sin embargo, dado que cada corte conlleva un costo $q$ igual al largo del listón en que se realiza, buscamos aquella permutación tal que al realizar los cortes en ese orden la sumatoria de costos sea la mínima posible.\\
+\indent Para tratar de caracterizar la solución, llamamos $Q^{s}_{ij}$ ($0 \leq i \leq j < m$) al costo de realizar en orden los cortes $c_i$,$c_{i+1}$,...,$c_j$ en un listón de tamaño $s$. El caso trivial en que $i=j$, este costo será igual a $s$. En cambio, cuando $i < j$, se debe elegir algún orden para realizar los cortes, ya que de esto dependerá cuánto costará cada uno.\\
+\indent De esto último se desprende que a la hora de evaluar el costo de un conjunto de cortes, siempre debemos elegir un corte pivot $c_k$ $(i \leq k < j)$ que determina dos secciones del listón a las que quedan asociados dos conjuntos disjuntos de cortes. Luego, para determinar $Q^{s}_{ij}$ en el caso no trivial:
+			\begin{itemize} \itemsep -2pt
+			\item \textbf{Primero} elegimos $k / i \leq k < j$
+			\end{itemize}
+			\begin{itemize} \itemsep -2pt
+			\item \textbf{Luego} computamos $Q^{c_k}_{ik}$
+			\end{itemize}
+			\begin{itemize} \itemsep -2pt
+			\item \textbf{Además} computamos $Q^{s-c_k}_{k+1j}$
+			\end{itemize}
+			\begin{itemize} \itemsep -2pt
+			\item \textbf{Finalmente} sumamos ambos costos al de haber realizado $c_k$, el cual resulta ser $s$
+			\end{itemize}
+
+A partir de este modelado salta a la vista que la solución se construye recursivamente. Habiendo determinado esto, debemos ver si entonces se cumple el \textsl{Principio de Optimalidad}.\\
+\indent Supongamos que encontramos el valor mínimo de $Q^{s}_{ij}$ tomando como corte pivot $c_k$ para algún $k$ entre $i$ y $j$. Luego por lo expuesto antes necesariamente el valor de la subsolución $Q^{c_k}_{ik}$ del subproblema deberá ser óptimo, ya que si existiera otro orden para obtener un costo más barato, entonces la solución inicial no habría sido la óptima. Lo mismo sucede al considerar el subproblema derecho. El absurdo proviene de que $Q^{s}_{ij} = Q^{c_k}_{ik} + s + Q^{s-c_k}_{k+1j}$, luego si la solución es óptima la suma de los términos que la conforman también debe serlo, lo cual se traduce en que las subsoluciones de los subproblemas determinados sean también óptimas.\\
+\indent Se ve entonces que cualquier instancia no trivial del problema de optimización de los cortes requiere que se separe el problema en dos subproblemas, y que a partir de la óptima resolución de ellos podemos construir una solución óptima a nuestro problema. Es importante notar que se deben recorrer todos los posibles cortes pivot en una instancia dada para asegurarse que se eligió cortar de manera óptima.\\
+
+\subsection{Solución Recursiva}
+
+Para este problema podemos determinar la solución óptima recursivamente al ir combinando soluciones óptimas de los subproblemas determinados. En particular, se debe organizar el orden de los cortes en el listón en función de su costo. Es decir que la función que implementamos toma decisiones en base a esta variable, pero el objetivo ulterior no es devolver el costo final sino cierta permutación de cortes asociada a ese costo. Para ello entonces operamos también con una lista donde iremos agregando los cortes desde el primero al últimoq ue se realiza.\\
+
+\indent Sea $P[i,j,s]$ la permutación de cortes asociada al valor óptimo $Q^{s}_{ij}$, luego la solución del problema estará dada por $P[0,m-1,s]$. La lista $P$ la definimos recursivamente de la siguiente manera:
+			\begin{itemize} \itemsep -2pt
+			\item Si $i = j$ el problema es trivial, pues sólo se realiza un corte en el listón s, con lo cual $P[i,j,s] = \{c_i\}$.
+			\end{itemize}
+			\begin{itemize} \itemsep -2pt
+			\item Si $i < j$ debemos seguir lo expuesto antes y pensar que primero se realiza el corte pivot y luego se realizan 				los cortes de manera óptima sobre el sublistón izquierdo y de la misma manera sobre el sublistón derecho. Notar que 				es indistinto el orden en que se ponga el bloque izquierdo o derecho. De esta manera $P[i,j,s] = \{c_k\} ++ P[i,k,c_k] 				++ P[k+1,j,s-c_k]$.
+			\end{itemize}
+
+Sin embargo este modelo de recursión asume que se conoce cuál es el corte pivot que garantiza la solución óptima. En realidad, ese k debe ser elegido en función de la permutación que genere el mínimo costo. Como complemento a lo anterior llamamos $Q[i,j,s]$ al mínimo costo al realizar los cortes $c_i$ hasta $c_j$ en el listón de tamaño $s$, el cual también se define recursivamente de la siguiente manera:
+	\[ Q[i,j,s] = \left\{ \begin{array}{ll}
+		 s & \mbox{if $i = j$};\\
+		\min_{i \leq k < j} \{ Q[i,k,c_k] + Q[k+1,j,s-c_k] \} + s & \mbox{if $i < j$}.\end{array} \right. \] 
+
+	
+Aunque se trate de dos funciones recursivas distintas, se podrá observar que están intimamente ligadas. En términos implementativos se trata simplemente de una sola función que evalúa costos y en vez de devolver este retorna la permutación de cortes que utilizó para llegar al mismo.\\
+
+\indent Otra observación que debe hacerse es que en este análisis se pasó por alto el hecho de que, al seccionar el listón, estas funciones teóricas sólo recuerdan el tamaño, pero no los extremos relativos a las posiciones desde donde fue seccionado el listón original. De esta manera, en este análisis teórico estaríamos evaluando realizar el corte $c_i = 7$ en un listón cuyos extremos son 0 y 3 pero que ubicado en el listón original sus extremos serían 5 y 8. Esta omisión se da ya que sólo volvería engorroso el planteo de las funciones, pero desde ya es algo que sí se contempla en la función implementada.
+
 \subsection{Calculando las Subsoluciones}
 
 ¿Qué sucede a la hora de calcular las diversas subsoluciones de los subproblemas que se van planteando? Hasta aquí sólo se ha modelado una forma recursiva para resolver el problema, teniendo en cuenta que éste cumple el principio de optimalidad. ¿Pero acaso es esto mejor que la fuerza bruta, o backtracking, donde podríamos evaluar todas las permutaciones posibles? La respuesta es, por el momento, no. En la Figura \textbf{ACA VA NRO FIG} vemos un esquema del árbol de problemas que se va generando al evaluar el modelo recursivo antes descripto, llamando a $P[1,4,s]$. Se puede ver fácilmente como en diversos llamados de la función recursiva se repiten los subproblemas, lo cual implica que la función planteada hasta el momento debe resolver varios cómputos repetidas veces. Esta característica, \textsl{superposición de subproblemas}, es esencial para una solución de Programación Dinámica. A diferencia de un problema que se pudiera resolver con Divide \& Conquer, en que se generan nuevos y disjuntos subproblemas, aquí vemos como en realidad el espacio de subproblemas distintos es reducido.\\
