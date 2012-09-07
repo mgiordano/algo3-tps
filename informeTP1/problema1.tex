@@ -17,17 +17,26 @@ La idea detrás de nuestra solución para el Problema 1 involucra recorrer la li
 \subsection{Complejidad}
 \indent Para analizar la complejidad del algoritmo planteado anteriormente, utilizaremos el siguiente pseudocódigo:
 
-\begin{verbatim}
-for ( 1 <= i < cantDias ){
-   if (precios[i] < min)
-      min = precios[i]
-      max = precios[i]
-   if (precios[i] > max) max = precios[i]
-   
-   gananciaActual = max - min
-   if (gananciaActual > gananciaMax) gananciaMax = gananciaActual
-return gananciaMax;
-\end{verbatim}
+\begin{algorithm}
+\caption{buscarGanancia (\textbf{in} precios: \textsl{int[]}) $\rightarrow$ res: \textsl{int}}
+\begin{algorithmic}[1]
+
+\FOR{$i = 1$ \textbf{to} $cantDias$}
+	\IF{$precios[i] < min$}
+		\STATE $min \leftarrow precios[i]$
+		\STATE $max \leftarrow precios[i]$
+	\ENDIF
+	\IF{$precios[i] > max$}
+		\STATE $max \leftarrow precios[i]$
+	\ENDIF	
+	\STATE $gananciaActual \leftarrow max - min$
+	\IF{$gananciaActual > gananciaMax$}
+		\STATE $gananciaMax \leftarrow gananciaActual$
+	\ENDIF
+\ENDFOR
+\RETURN $gananciaMax$
+\end{algorithmic}
+\end{algorithm}
 
 \indent Básicamente, nuestro algoritmo recorre linealmente el arreglo de los días y va guardando la ganancia máxima, que luego es el valor devuelto.\\
 \indent Para empezar a analizar la complejidad, podemos notar que ciclamos por todas las posiciones del arreglo una sola vez. Esto quiere decir que la complejidad que tenemos va a ser de $O(n)$ por el costo del cuerpo del $for$, considerando a n, como el tamaño del arreglo (cantidad de días).\\
@@ -76,9 +85,11 @@ return gananciaMax;
 \begin{figure}[h]
 \centering                                                       
         \includegraphics[width=340pt]{./figs/p1Tiempos.png}
+	\caption{Gráfico de análisis de casos de test}
+	\label{fig:p1tiempos}
 \end{figure}
 
 
-\indent Viendo el gráfico, podemos comprobar la complejidad del algoritmo. Se ve que los tiempos tienen un comportamiento lineal como el esperado. También se puede observar que el peor caso es en el que los números son decrecientes, dado que como vimos en la parte de complejidad, es el caso que mas asignaciones y comparaciones hace. El caso en el que los números son crecientes, lo podemos observar como el mejor caso (linea verde) y como era de esperarse, un caso en el que los números no tienen un patrón definido, cae entre medio de los casos mencionados anteriormente. \\
+\indent Viendo el Gráfico de la Figura ~\ref{fig:p1tiempos}, podemos comprobar la complejidad del algoritmo. Se ve que los tiempos tienen un comportamiento lineal como el esperado. También se puede observar que el peor caso es en el que los números son decrecientes, dado que como vimos en la parte de complejidad, es el caso que mas asignaciones y comparaciones hace. El caso en el que los números son crecientes, lo podemos observar como el mejor caso (linea verde) y como era de esperarse, un caso en el que los números no tienen un patrón definido, cae entre medio de los casos mencionados anteriormente. \\
 
 
