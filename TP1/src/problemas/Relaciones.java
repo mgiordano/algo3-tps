@@ -10,10 +10,18 @@ public class Relaciones {
 	public Investigador source;
 	public Investigador destination;
 	
-	public Relaciones(ArrayList<Investigador> inv, Investigador desde, Investigador hasta){
-		investigadores = inv;
-		source = desde;
-		destination = hasta;
+	public Relaciones(){
+		investigadores = new ArrayList<Investigador>();
+	}
+	
+	public Relaciones(ArrayList<Investigador> lista, Investigador p, Investigador q){
+		investigadores = lista;
+		source = p;
+		destination = q;
+	}
+	
+	public void setList(ArrayList<Investigador> lista){
+		investigadores = lista;
 	}
 	
 	public void setSource(Investigador inv){
@@ -35,7 +43,7 @@ public class Relaciones {
 			if (investigadores.get(i).nombre.equals(inv.nombre)){
 				esta = true;
 				ListIterator<Investigador> amigos = investigadores.get(i).amistades.listIterator();
-				while (amigos.hasNext()){
+				while (amigos.hasNext() && agrego){
 					if (amigos.next().nombre.equals(inv.amistades.get(0).nombre)){
 						agrego = false;
 					}
@@ -64,8 +72,9 @@ public class Relaciones {
 			}
 			invRel.next();
 		}
-		
 		inv1.AgregarAmigo(inv2);
+		this.AgregarInvestigador(inv1);
+		this.AgregarInvestigador(inv2);
 	}
 	
 	public int BFS(Investigador source, Investigador destination){
@@ -73,7 +82,7 @@ public class Relaciones {
 		source.distancia = 0;
 		Queue<Investigador> cola = new LinkedList<Investigador>();
 		cola.add(source);
-		Investigador actual = new Investigador(null);
+		Investigador actual = new Investigador();
 		ListIterator<Investigador> amigosIter;
 		int indice = 0;
 		while (!cola.isEmpty()){
