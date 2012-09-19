@@ -1,13 +1,16 @@
 package src;
 
+import static org.junit.Assert.assertEquals;
+
+import java.io.IOException;
 import java.util.ArrayList;
 
 import org.junit.Test;
-import static org.junit.Assert.assertEquals;
-//import static org.junit.Assert.assertArrayEquals;
 
+import src.problemas.Ej2;
 import src.problemas.Investigador;
 import src.problemas.Relaciones;
+//import static org.junit.Assert.assertArrayEquals;
 
 
 public class Tests2 {
@@ -15,10 +18,13 @@ public class Tests2 {
 	@Test
 	public void testInvestigador(){
 		
-		// Test constructor b�sico de nombre "name"
+		// Test constructor bsico de nombre "name"
 		Investigador name = new Investigador("name");
 		assertEquals("name", name.nombre);
-
+		
+		
+		
+		
 		// Test de cambio de estado
 		
 		// Primero vemos que se crea con el estado "no encontrado"
@@ -28,11 +34,14 @@ public class Tests2 {
 		assertEquals("encontrado", name.estado);
 		name.visitado();
 		assertEquals("visitado", name.estado);
-
+		
+		
+		
+		
 		// Test de distancia
 		
 		/* 
-		 * Primero vemos que se crea con el valor m�ximo que puede tener
+		 * Primero vemos que se crea con el valor mximo que puede tener
 		 * un Integer, para que quede ese valor en caso de que el grafo
 		 * de relaciones sea no conexo.
 		 */
@@ -40,13 +49,15 @@ public class Tests2 {
 		
 		/*
 		 * Seteamos la distancia en 0 como se hace a la hora de utilizarla
-		 * por primera vez, y la aumentamos con la funci�n aumentar
+		 * por primera vez, y la aumentamos con la funcin aumentar
 		*/
 		name.distancia = 0;
 		assertEquals(0, name.distancia);
 		name.aumentar();
 		assertEquals(1, name.distancia);
-
+		
+		
+		
 		
 		// Test de agregar amigo
 		
@@ -79,8 +90,8 @@ public class Tests2 {
 		Relaciones relacionTest = new Relaciones(invList, p, q);
 		
 		/*
-		 * Veamos que el conjunto de investigadores es un arreglo vac�o,
-		 * comparando con el constructor vac�o de un arreglo de investigadores
+		 * Veamos que el conjunto de investigadores es un arreglo vaco,
+		 * comparando con el constructor vaco de un arreglo de investigadores
 		 * y mostrando que la cantidad de elementos de dicho campo es 0.
 		 */
 		assertEquals(new ArrayList<Investigador>(), relacionTest.investigadores);
@@ -119,11 +130,11 @@ public class Tests2 {
 		
 		relacionTest.AgregarInvestigador(p);
 		relacionTest.AgregarInvestigador(q);
-		assertEquals(p, relacionTest.investigadores.get(0)); // Como p es el primero que agregamos, est� en la posici�n 0
-		assertEquals(q, relacionTest.investigadores.get(1)); // Por el mismo motivo, q est� en la posici�n 1
+		assertEquals(p, relacionTest.investigadores.get(0)); // Como p es el primero que agregamos, est en la posicin 0
+		assertEquals(q, relacionTest.investigadores.get(1)); // Por el mismo motivo, q est en la posicin 1
 		
 		/*
-		 * Veamos que ninguno tiene amigos, y luego testeamos la funci�n para agregar
+		 * Veamos que ninguno tiene amigos, y luego testeamos la funcin para agregar
 		 * amigos a ambos.
 		 */
 		
@@ -151,7 +162,7 @@ public class Tests2 {
 		
 		/*
 		 * A un investigador r, vamos a agregarle primero a q como amigo y luego a p
-		 * y mostrar que los agrega bien, en �rden, y que cada uno tiene los amigos
+		 * y mostrar que los agrega bien, en rden, y que cada uno tiene los amigos
 		 * que debe tener.
 		 */
 		
@@ -172,11 +183,9 @@ public class Tests2 {
 		assertEquals(r, q.amistades.get(1));
 		
 	}
-	
 
 	@Test
 	public void testC1(){
-		int res;
 		Investigador esteban = new Investigador("esteban");
 		Investigador irene = new Investigador("irene");
 		
@@ -185,16 +194,16 @@ public class Tests2 {
 		investigadores.add(irene);
 		
 		Relaciones relacion = new Relaciones(investigadores, esteban, irene);
-
-		res = relacion.BFS(esteban, irene);
+		int res = relacion.BFS(esteban, irene);
+		System.out.println("El resultado es " + res);
 		
 		assertEquals(0, res);
+		
 	}
-	
-	
+
 	@Test
 	public void testC2(){
-
+		
 		Investigador esteban = new Investigador("esteban");
 		Investigador irene = new Investigador("irene");
 		Investigador alejandro = new Investigador("alejandro");
@@ -202,6 +211,11 @@ public class Tests2 {
 		esteban.AgregarAmigo(alejandro);
 		irene.AgregarAmigo(alejandro);
 		paula.AgregarAmigo(alejandro);
+		
+		alejandro.dameAmigos();
+		irene.dameAmigos();
+		paula.dameAmigos();
+		esteban.dameAmigos();
 		
 		ArrayList<Investigador> investigadoresLocos = new ArrayList<Investigador>();
 		investigadoresLocos.add(irene);
@@ -211,14 +225,13 @@ public class Tests2 {
 		
 		Relaciones prueba = new Relaciones(investigadoresLocos, esteban, irene);
 		int res = prueba.BFS(esteban, irene);
+		System.out.println("la distancia entre esteban e irene es " + res);
 		
 		assertEquals(2, res);
-
 	}
-	
+
 	@Test
 	public void testC3(){
-
 		Investigador esteban = new Investigador("esteban");
 		Investigador irene = new Investigador("irene");
 		Investigador alejandro = new Investigador("alejandro");
@@ -229,6 +242,9 @@ public class Tests2 {
 		alejandro.AgregarAmigo(irene);
 		paula.AgregarAmigo(alejandro);
 		
+		alejandro.dameAmigos();
+		marina.dameAmigos();
+		
 		ArrayList<Investigador> investigadores = new ArrayList<Investigador>();
 		investigadores.add(esteban);
 		investigadores.add(irene);
@@ -238,15 +254,13 @@ public class Tests2 {
 		
 		Relaciones relacion = new Relaciones(investigadores, esteban, irene);
 		int res = relacion.BFS(esteban, irene);
-		
+		System.out.println("El resultado es " + res);
 		
 		assertEquals(0, res);
-
 	}
-	
+
 	@Test
 	public void testC4(){
-
 		Investigador esteban = new Investigador("esteban");
 		Investigador irene = new Investigador("irene");
 		Investigador alejandro = new Investigador("alejandro");
@@ -257,6 +271,9 @@ public class Tests2 {
 		alejandro.AgregarAmigo(irene);
 		paula.AgregarAmigo(alejandro);
 		
+		alejandro.dameAmigos();
+		marina.dameAmigos();
+		
 		ArrayList<Investigador> investigadores = new ArrayList<Investigador>();
 		investigadores.add(esteban);
 		investigadores.add(irene);
@@ -266,14 +283,13 @@ public class Tests2 {
 		
 		Relaciones relacion = new Relaciones(investigadores, esteban, irene);
 		int res = relacion.BFS(esteban, irene);
-		
+		System.out.println("El resultado es " + res);
 		
 		assertEquals(0, res);
 	}
 	
 	@Test
 	public void testC5(){
-
 		Investigador esteban = new Investigador("esteban");
 		Investigador irene = new Investigador("irene");
 		Investigador alejandro = new Investigador("alejandro");
@@ -285,6 +301,9 @@ public class Tests2 {
 		irene.AgregarAmigo(emilio);
 		irene.AgregarAmigo(esteban);
 		
+		irene.dameAmigos();
+		emilio.dameAmigos();
+		
 		ArrayList<Investigador> investigadores = new ArrayList<Investigador>();
 		investigadores.add(esteban);
 		investigadores.add(irene);
@@ -294,15 +313,13 @@ public class Tests2 {
 		
 		Relaciones relacion = new Relaciones(investigadores, esteban, irene);
 		int res = relacion.BFS(esteban, irene);
-		
+		System.out.println("El resultado es " + res);
 		
 		assertEquals(1, res);
-
 	}
 	
 	@Test
 	public void testC6(){
-
 		Investigador esteban = new Investigador("esteban");
 		Investigador irene = new Investigador("irene");
 		Investigador alejandro = new Investigador("alejandro");
@@ -315,7 +332,12 @@ public class Tests2 {
 		paula.AgregarAmigo(emilio);
 		emilio.AgregarAmigo(esteban);
 		emilio.AgregarAmigo(marina);
-
+		
+		irene.dameAmigos();
+		emilio.dameAmigos();
+		marina.dameAmigos();
+		alejandro.dameAmigos();
+		
 		ArrayList<Investigador> investigadores = new ArrayList<Investigador>();
 		investigadores.add(esteban);
 		investigadores.add(irene);
@@ -326,15 +348,13 @@ public class Tests2 {
 		
 		Relaciones relacion = new Relaciones(investigadores, esteban, irene);
 		int res = relacion.BFS(esteban, irene);
-		
+		System.out.println("El resultado es " + res);
 		
 		assertEquals(3, res);
-
 	}
 	
 	@Test
 	public void testC7(){
-
 		Investigador esteban = new Investigador("esteban");
 		Investigador irene = new Investigador("irene");
 		Investigador alejandro = new Investigador("alejandro");
@@ -349,6 +369,11 @@ public class Tests2 {
 		emilio.AgregarAmigo(marina);
 		alejandro.AgregarAmigo(marina);
 		
+		irene.dameAmigos();
+		emilio.dameAmigos();
+		marina.dameAmigos();
+		alejandro.dameAmigos();
+		
 		ArrayList<Investigador> investigadores = new ArrayList<Investigador>();
 		investigadores.add(esteban);
 		investigadores.add(irene);
@@ -359,15 +384,13 @@ public class Tests2 {
 		
 		Relaciones relacion = new Relaciones(investigadores, esteban, irene);
 		int res = relacion.BFS(esteban, irene);
-		
+		System.out.println("El resultado es " + res);
 		
 		assertEquals(3, res);
-
 	}
-
+	
 	@Test
 	public void testLineal(){
-
 		Investigador esteban = new Investigador("esteban");
 		Investigador alejandro = new Investigador("alejandro");
 		Investigador paula = new Investigador("paula");
@@ -403,16 +426,13 @@ public class Tests2 {
 		
 		Relaciones relacion = new Relaciones(investigadores, esteban, irene);
 		int res = relacion.BFS(esteban, irene);
+		System.out.println("El resultado es " + res);
 		
 		assertEquals(9, res);
-
 	}
-
 	
 	@Test
 	public void todosVStodos(){
-		int j = 0;
-		while (j<1000){
 		Investigador esteban = new Investigador("esteban");
 		Investigador alejandro = new Investigador("alejandro");
 		Investigador paula = new Investigador("paula");
@@ -446,8 +466,14 @@ public class Tests2 {
 		
 		Relaciones relacion = new Relaciones(investigadores, esteban, irene);
 		int res = relacion.BFS(esteban, irene);
+		System.out.println("El resultado es " + res);
 		
 		assertEquals(1, res);
-		j++;}
+	}
+	
+	
+	@Test
+	public void testLeer() throws IOException{
+		Ej2.resolverFile("./tests/Tp1Ej2.in");
 	}
 }
