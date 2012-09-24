@@ -20,7 +20,6 @@ public class Ej1 {
 			if (precios[i] < min){
 				min = precios[i];
 				max = precios[i];
-				
 			}
 			if (precios[i] > max){
 				max = precios[i];
