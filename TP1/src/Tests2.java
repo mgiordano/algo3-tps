@@ -18,13 +18,10 @@ public class Tests2 {
 	@Test
 	public void testInvestigador(){
 		
-		// Test constructor bsico de nombre "name"
+		// Test constructor basico de nombre "name"
 		Investigador name = new Investigador("name");
 		assertEquals("name", name.nombre);
-		
-		
-		
-		
+
 		// Test de cambio de estado
 		
 		// Primero vemos que se crea con el estado "no encontrado"
@@ -34,10 +31,7 @@ public class Tests2 {
 		assertEquals("encontrado", name.estado);
 		name.visitado();
 		assertEquals("visitado", name.estado);
-		
-		
-		
-		
+
 		// Test de distancia
 		
 		/* 
@@ -55,10 +49,7 @@ public class Tests2 {
 		assertEquals(0, name.distancia);
 		name.aumentar();
 		assertEquals(1, name.distancia);
-		
-		
-		
-		
+
 		// Test de agregar amigo
 		
 		// Creamos 2 amigos y los agregamos a name
@@ -105,10 +96,7 @@ public class Tests2 {
 		
 		assertEquals(p, relacionTest.source);
 		assertEquals(q, relacionTest.destination);
-		
-		
-		
-		
+
 		// Test setSource y setDest
 		
 		/*
@@ -471,9 +459,32 @@ public class Tests2 {
 		assertEquals(1, res);
 	}
 	
-	
 	@Test
 	public void testLeer() throws IOException{
 		Ej2.resolverFile("./tests/Tp1Ej2.in");
 	}
+	
+	@Test
+	public void testNoConexos() throws IOException{
+		Ej2.resolverFile("./tests/testsAvanzados/Ej2/noConexos10000.in");
+		Ej2.resolverFile("./tests/testsAvanzados/Ej2/noConexos10000bis.in");
+		Ej2.resolverFile("./tests/testsAvanzados/Ej2/noConexos20000.in");
+		Ej2.resolverFile("./tests/testsAvanzados/Ej2/noConexos20000bis.in");
+		Ej2.resolverFile("./tests/testsAvanzados/Ej2/noConexos30000.in");
+		Ej2.resolverFile("./tests/testsAvanzados/Ej2/noConexos30000b.in");
+		Ej2.resolverFile("./tests/testsAvanzados/Ej2/noConexos40000.in");
+		Ej2.resolverFile("./tests/testsAvanzados/Ej2/noConexos50000.in");
+	
+	}
+	
+	@Test
+	public void testRandom() throws IOException{
+		Ej2.resolverFile("./tests/testsAvanzados/Ej2/rand5000.in");
+		Ej2.resolverFile("./tests/testsAvanzados/Ej2/rand10000.in");
+		Ej2.resolverFile("./tests/testsAvanzados/Ej2/rand20000.in");
+		Ej2.resolverFile("./tests/testsAvanzados/Ej2/rand30000.in");
+		Ej2.resolverFile("./tests/testsAvanzados/Ej2/rand40000.in");
+		Ej2.resolverFile("./tests/testsAvanzados/Ej2/rand50000.in");	
+	}
+	
 }

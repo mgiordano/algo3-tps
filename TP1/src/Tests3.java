@@ -111,7 +111,6 @@ public class Tests3 {
 		Integer[] a = new Integer[solucion1.cortes.size()];
 		assertArrayEquals(new Integer[] {99,45,15,7,5,70,150,119,166,190}, solucion1.cortes.toArray(a));
 	
-		//aux.imprimirLista(solucion1.cortes);
 	}
 	
 	@Test
@@ -121,16 +120,30 @@ public class Tests3 {
 		Solucion solucion1 = Ej3.cortarListon(liston1);
 		assertEquals(7480 , solucion1.costo);
 		Integer[] a = new Integer[solucion1.cortes.size()];
-		//aux.imprimirLista(solucion1.cortes);
 		assertArrayEquals(new Integer[] {634,299,150,79,41,20,10,5,7,15,30,26,37,60,52,45,55,59,70,74,119,99,89,106,228,190,166,204,217,267,245,460,376,340,320,314,301,330,360,350,411,397,388,405,436,450,440,545,500,477,490,481,587,611,600,899,777,700,675,655,685,690,699,743,720,756,840,804,793,785,799,819,812,830,825,870,861,888,1050,978,945,923,1023,1128,1099,1078,1110,1101,1167,1182,1177,1198}, solucion1.cortes.toArray(a));
-		
-		//Caso Grande Stress
-		Ej3.resolverFile("./tests/Tp1Ej3Stress.in");
+
 	}
 	
 	@Test
 	public void cortesFromFile(){
 		
 		Ej3.resolverFile("./tests/Tp1Ej3.in");
+	}
+	//Varios casos de test con distribuciones uniforme centrada, normal y
+	//cantidad fija de cortes variando tamaño de liston
+	
+	@Test
+	public void testDistrUniforme(){
+		Ej3.resolverFile("./tests/testsAvanzados/Ej3/distrUniforme.in");
+	}
+	
+	@Test
+	public void testDistrNormal(){
+		Ej3.resolverFile("./tests/testsAvanzados/Ej3/distrNormal.in");
+	}
+	
+	@Test
+	public void testCortesFijo(){
+		Ej3.resolverFile("./tests/testsAvanzados/Ej3/cortesFijo.in");
 	}
 }
