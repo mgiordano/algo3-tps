@@ -26,7 +26,7 @@ Como se ha mencionado, los parámetros de este problema son un listón de largo 
 			\end{itemize}
 
 A partir de este modelado salta a la vista que la solución se construye recursivamente. Habiendo determinado esto, debemos ver si entonces se cumple el \textsl{Principio de Optimalidad}.\\
-\indent Supongamos que encontramos el valor mínimo de $Q^{s}_{ij}$ tomando como corte pivot $c_k$ para algún $k$ entre $i$ y $j$. Luego por lo expuesto antes necesariamente el valor de la subsolución $Q^{c_k}_{ik}$ del subproblema deberá ser óptimo, ya que si existiera otro orden para obtener un costo más barato, entonces la solución inicial no habría sido la óptima. Lo mismo sucede al considerar el subproblema derecho. El absurdo proviene de que $Q^{s}_{ij} = Q^{c_k}_{ik} + s + Q^{s-c_k}_{k+1j}$, luego si la solución es óptima la suma de los términos que la conforman también debe serlo, lo cual se traduce en que las subsoluciones de los subproblemas determinados sean también óptimas.\\
+\indent Supongamos que encontramos el valor mínimo de $Q^{s}_{ij}$ tomando como corte pivot $c_k$ para algún $k$ entre $i$ y $j$. Luego, por lo expuesto antes, necesariamente el valor de la subsolución $Q^{c_k}_{ik}$ del subproblema deberá ser óptimo, ya que si existiera otro orden para obtener un costo más barato podríamos usar esa subsolución en nuestra solución global, lo cual devolvería una solución de menor costo respecto de la inicial. Esto es un absurdo, y lo mismo sucede al considerar el subproblema derecho. La contradicción proviene de que $Q^{s}_{ij} = Q^{c_k}_{ik} + s + Q^{s-c_k}_{k+1j}$, luego si la solución es óptima la suma de los términos que la conforman también deberá serlo, lo cual se traduce en que las subsoluciones de los subproblemas determinados sean también óptimas.\\
 \indent Se ve entonces que cualquier instancia no trivial del problema de optimización de los cortes requiere que se separe el problema en dos subproblemas, y que a partir de la óptima resolución de ellos podemos construir una solución óptima a nuestro problema. Es importante notar que se deben recorrer todos los posibles cortes pivot en una instancia dada para asegurarse que se eligió cortar de manera óptima.\\
 
 \subsection{Solución Recursiva}
@@ -92,35 +92,35 @@ Antes de analizar el algoritmo implementado y evaluar su complejidad, es importa
 \caption{memoizedCosto (\textbf{in/out} liston: \textsl{Liston}, \textbf{in} i,j,izq,der: \textsl{int}) $\rightarrow$ res: \textsl{Solucion}}
 \begin{algorithmic}[1]
 
-\IF{ $i == j$}
-	\IF{ $liston.dameCorte(i) == izq || liston.dameCorte(j) = der$ }
+\IF{ $i = j$}
+	\IF{ $corte(i) = izq$ \textbf{or} $corte(j) = der$ }
 		\STATE $corteInvalido \leftarrow Solucion()$
-		\STATE $liston.insertarSolucion(i,j,corteInvalido)$
+		\STATE se inserta solucion $(i,j,corteInvalido)$
 		\RETURN $corteInvalido$
 	\ELSE
-		\STATE $corteBase \leftarrow Solucion(der-izq, liston.dameCorte(i))$
-		\STATE $liston.insertarSolucion(i,j,corteBase)$
+		\STATE $corteBase \leftarrow Solucion(der-izq, corte(i))$
+		\STATE se inserta solucion $(i,j,corteBase)$
 		\RETURN $corteBase$
 	\ENDIF
 \ELSE
 	\STATE $costoAnt \leftarrow \infty$
 	\FOR{$k = i$ \textbf{to} $j-1$} 
-		\IF{ $not(liston.haySolucion(i,k)$}
-			\STATE $memoizedCosto(liston,i,k,izq,liston.dameCorte(k))$
+		\IF{ no hay solucion$(i,k)$}
+			\STATE $memoizedCosto(liston,i,k,izq,corte(k))$
 		\ENDIF
-		\STATE $solIzq \leftarrow liston.dameSolucion(i,k)$
-		\IF {$not(liston.haySolucion(k+1,j)$}
-			\STATE $memoizedCosto(liston,k+1,j,liston.dameCorte(k),der)$
+		\STATE $solIzq \leftarrow solucion(i,k)$
+		\IF {no hay solucion$(k+1,j)$}
+			\STATE $memoizedCosto(liston,k+1,j,corte(k),der)$
 		\ENDIF
-		\STATE $solDer \leftarrow liston.dameSolucion(k+1,j)$
-		\STATE $costoAct \leftarrow solIzq.costo + solDer.costo + (der-izq)$
+		\STATE $solDer \leftarrow solucion(k+1,j)$
+		\STATE $costoAct \leftarrow$ costo $solIzq$ $+$ costo $solDer$ $+$ $(der-izq)$
 		\IF {$costoAct < costoAnt$}
 			\STATE $costoAnt \leftarrow costoAct$
 			\STATE $ktemp \leftarrow k$
-			\STATE $sol_ij \leftarrow combinar(solIzq,solDer,costoAct,ktmp)$
+			\STATE $sol_{ij} \leftarrow combinar(solIzq,solDer,costoAct,ktmp)$
 		\ENDIF
 	\ENDFOR
-	\STATE $liston.insertar(i,j,sol_{ij})$
+	\STATE se inserta solucion $(i,j,sol_{ij})$
 	\RETURN $sol_{ij}$
 \ENDIF
 \end{algorithmic}
@@ -130,19 +130,55 @@ Antes de analizar el algoritmo implementado y evaluar su complejidad, es importa
 \indent La complejidad de \textsl{memoizedCosto} es un tanto más compleja de calcular, ya que se trata de una función recursiva. Supongamos por el momento que es $T(m)$. La propuesta para este análisis es primero hacer un desglose de las complejidades de cada línea, y luego ver de qué manera repercute esto en la recursión y cuál es finalmente la verdadera complejidad de la función.\\
 \indent Si dividiéramos en bloques la función, el primero estaría comprendido entre la línea 1 y la línea 10, representando el análisis de casos base. Todas las operaciones en este bloque, por lo justificado en la sección anterior sobre los métodos de las estructuras, es O(1).\\
 \indent El segundo bloque, el cual va de la línea 12 a la 28, comprende casi la mayor parte de la función, y es el que se ocupa de verificar qué corte se debe realizar en esa llamada, actualizar la tabla de memoización y devolver una solución parcial. Salvo una asignación en O(1) al principio, el resto del bloque está comprendido por un sub-bloque iterativo. Supongamos que la complejidad de lo que se ejecuta en ese bloque es $T(F)$. Luego, como el ciclo itera entre $i$ y $j$, y estos a su vez están comprendidos entre $0$ y $m-1$, la complejidad de este bloque sería O($m * T(F)$). Ahora bien, veamos cuál es la complejidad dentro del ciclo.\\
-\indent Aquí es donde se produce el truco de la memoización, que nos ahorrará operar en tiempo exponencial (como se mostró antes) para llegar, idealmente y según veremos en pocas líneas, a tiempo polinomial. Tanto en las líneas 14-17, como 18-21, la función parte en el listón en el $k$-ésimo corte y luego busca en la tabla los costos de lo que queda a izquierda y a derecha. Si nunca lo calculó, deberá hacerlo mediante la recursión. Supongamos para el análisis que siempre encuentra la solución en la tabla. Entonces, hasta aquí, la complejidad dentro del ciclo es constante. Luego hace algunas cuentas con enteros y comparaciones, para en la línea 26 utiliza el método combinar, que según probamos en las estructuras demanada O($m$). De esta manera, con la suposición de que siempre encuentra los valores en la tabla, la complejidad del ciclo es O($m * m$), o sea O($m^2$). Finalmente la penúltima línea inserta la solución parcial en tiempo constante y la devuelve.\\
-\indent Suponiendo que los valores pedidos siempre están en la tabla (se acceden entonces en O(1)), llegamos a que $T(m) = O(m^2)$. Pero la realidad es que nuestra suposición no es del todo correcta, ya que al menos hay $m$ casos en los que para esos cortes se deben computar los subproblemas izquierdo y derecho por primera vez, con lo cual en realidad la complejidad es O($m * m^2$), lo que \textbf{finalmente da en el orden de} O($m^3$).
+\indent Aquí es donde se produce el truco de la memoización, que nos ahorrará operar en tiempo exponencial (como se mostró antes) para llegar, idealmente y según veremos en pocas líneas, a tiempo polinomial. Tanto en las líneas 14-17, como 18-21, la función parte al listón en el $k$-ésimo corte y luego busca en la tabla los costos de lo que queda a izquierda y a derecha. Si nunca lo calculó, deberá hacerlo mediante la recursión. Supongamos para el análisis que siempre encuentra la solución en la tabla. Entonces, hasta aquí, la complejidad dentro del ciclo es constante. Luego hace algunas cuentas con enteros y comparaciones, para en la línea 26 utiliza el método combinar, que según probamos en las estructuras demanada O($m$). De esta manera, con la suposición de que siempre encuentra los valores en la tabla, la complejidad del ciclo es O($m * m$), o sea O($m^2$). Finalmente la penúltima línea inserta la solución parcial en tiempo constante y la devuelve.\\
+\indent Los valores pedidos a la tabla se obtienen en O(1). Dado que hay $m$ casos en los que para esos cortes se deben computar los subproblemas izquierdo y derecho por primera vez, la complejidad del ciclo es O($m^2 + m$), luego T($F$) $\in$ O($m^2$). Finalmente la complejidad es O($m * m^2$), es decir T($m$) $\in$ O($m^3$).
 
-\subsection{Análisis Toma de Tiempos}
+\subsection{Sobre la Correctitud del Algoritmo}
 
-\indent Para correr el algoritmo, hicimos 1000 corridas de cada caso para poder tener un tiempo estimativo en milisegundos, dado que si corrìamos una sola vez los casos, el tiempo era insignificante (para poca cantidad de cortes).\\
-\indent A continuacion presentamos el grafico obtenido para un liston de tamaño 200 variando el parámetro $m$ (cant. de cortes) entre 3, 6, 10, 15, 19, 27 y 36:
+El algoritmo implementado resultó bastante transparente respecto del modelado recursivo del problema, el cual por todo lo expuesto antes se vio es suficiente para obtener la solución correcta al problema. Adicionalmente, la explotación de las ideas de Programación Dinámica permitió disminuir la complejidad respecto del planteo inicial mediante \textit{memoización}. Por ende, sólo resta un breve comentario que termine de tender el puente entre las ideas teóricas y el algoritmo final.\\
+\indent Dada la caracterización de la solución a nuestro problema, el hecho de que sea óptima se da a partir de que las subsoluciones de los subproblemas que derivan del mismo también lo sean. Debido a que a la hora de realizar el primer corte en un listón, cualquiera de los candidatos conlleva el mismo costo (el largo del listón original), el algoritmo elige aquél tal que los costos de los subproblemas izquierdo y derecho determinados por el mismo sean menores o iguales al del resto de los subproblemas determinados por los otros $m-1$ cortes. El ciclo que determina esto itera sobre todos los cortes válidos entre las coordenadas $i$ y $j$ con que fue llamada la función. Como la primera ejecución del algoritmo parte de mirar el listón en toda su extensión ($0$ hasta $longitud-1$), nos aseguramos de que estamos contemplando todo el problema. Además, por la modalidad \textit{top-down} implementada, asumimos que la recursión se encarga de repetir el mismo proceso para cada sub-instancia del problema. Así, elegirá ese primer corte óptimamente, en función de haber desmenuzado cada problema y calculado la decisión óptima en cada llamada, asegurándose luego de que solo sobreviva la rama óptima del árbol de recursión.\\
+\indent Se ve entonces que el algoritmo mira todas las posibilidades y en cada llamdada se queda con aquella que derivó un menor costo, hasta que finalmente llega a sus dos casos base posibles: o hay un sólo corte para realizar en un tramo del listón, con lo cual la decisión es trivial, o se quiere cortar un extremo del (sub)listón que se está mirando, con lo cual el corte se declara inválido y el costo devuelto es $0$. Todo esto determina que la construcción de la solución global sea efectivamente la óptima, resultando en que el algoritmo funcione correctamente de acuerdo a lo previsto. 
+
+\newpage
+
+\subsection{Casos de Test y Tiempos de Corrida}
 
 \begin{figure}[h]
 \centering                                                       
-        \includegraphics[width=320pt]{./figs/p3tiempos.png}
-	\caption{En este gráfico se ejemplifican algunas corridas para cierta cantidad de cortes}
-	\label{fig:p3tiempos}
+        \includegraphics[width=320pt]{./figs/Ej3DU.png}
+	%\caption{Gráfico 1}
+	\label{fig:ej3DU}
 \end{figure}
 
-\indent Al realizar el gràfico, nos llevamos la sorpresa de que la gràfica resultante parecìa no ser cúbica. Luego de realizar varias pruebas notamos que el comportamiento de los tiempos que obteníamos no era tan regular como esperábamos (a diferencia por ejemplo del primer problema). Si bien no sabemos con certeza a qué atribuirlo, algunas de las hipótesis con que contamos es que la metodología para contar los tiempos no fuera la correcta, o que no hubieramos dispuesto una distribución uniforme de los casos de prueba. Esto es, si bien variamos el parámetro $m$, desconocemos qué relación puede existir con la longitud del listón. Si bien por el modelado y el análisis expuesto esto no infiere directamente, podría ser que lo haga la densidad o distribución de cortes dada la superficie del listón.\\
+\begin{figure}[h]
+\centering                                                       
+        \includegraphics[width=320pt]{./figs/Ej3CF.png}
+	%\caption{Gráfico 2}
+	\label{fig:ej3CF}
+\end{figure}
+
+\newpage
+
+\begin{figure}[h]
+\centering                                                       
+        \includegraphics[width=320pt]{./figs/Ej3DN.png}
+	%\caption{Gráfico 1}
+	\label{fig:ej3DN}
+\end{figure}
+
+\begin{figure}[h]
+\centering                                                       
+        \includegraphics[width=320pt]{./figs/Ej3CompDUDN.png}
+	%\caption{Gráfico 2}
+	\label{fig:ej3DUDN}
+\end{figure}
+
+\newpage
+
+\indent A diferencia del Problema 1, y también un poco del Problema 2, aquí la ejecución de cada caso de test demandó un considerable tiempo debido a la complejidad del problema. Por esto, se resolvió realizar 10 iteraciones de cada instancia de cada test, y para cada caso se procedió sistemáticamente a realizar la misma tarea: una poda de los puntos que eliminara outliers, buscando el promedio entre las 10 iteraciones y luego eliminando los puntos que distaran en más de un 10\% del mismo; de los restantes, luego, se tomó el máximo ya que dado el análisis de complejidad realizado nos interesaba observar el peor caso. No obstante esta poda, y como se vio a lo largo de todo el informe, algunas irregularidades del comportamiento de ejecución de Eclipse/Java persistieron.\\
+\indent El \textbf{Gráfico 1} corresponde al caso de test \textit{'distrUniforme.in'}. La idea de este experimento era distribuir un 30\% de cortes sobre el tamaño del listón de manera pareja, partiendo desde el centro del listón hacia los costados y separando los cortes por 2 unidades de espacio. De esta manera, comenzamos con un listón de tamaño 10 y fuimos incrementando su tamaño a la vez que la cantidad de cortes aumentaba. Obtuvimos entonces una variación creciente de cortes manteniendo su distribución (centrada y uniforme) en el listón para que cada caso tuviera las mismas condiciones.\\
+\indent Este primer experimento se condice con el cálculo analítico de la complejidad realizado anteriormente. Cada punto se corresponde con una corrida, mientras que la curva de 'fitness' es una aproximación cúbica del set de datos graficado (realizada con la función \textit{polyfit()} de Octave). Vemos que el tiempo de ejecución del algoritmo para este caso se ve acotado superiormente por una curva cúbica del tipo $a*m^3$, donde $a$ es una constante muy pequeña. Dado que ambas curvas se parecen en forma, es de esperar que asintóticamente esta relación  se mantenga.\\
+\indent En el \textbf{Gráfico 2} se plasmó la experimentación en que se utilizó el caso de test \textit{cortesFijo.in}. La idea aquí era fijar una cantidad de cortes (en este caso $m = 11$, siempre situados en la zona media de la varilla) pero variar el tamaño del listón ($n$) y observar qué sucedía. Nuestro anterior análisis de complejidad concluyó que la misma no dependía del largo del listón, y esto se ve reflejado en este gráfico, el cual denota una tendencia constante para T($n$). A pesar de que se observan varios outliers, producto del incierto comportamiento temporal en las ejecuciones de Eclipse/Java, la mayor concentración de puntos puede ser aproximada por una recta que muestra la tendencia lineal y poco variable del algoritmo para este caso, en los cuales para cada instancia se varió el largo del listón en saltos de a 10.\\
+\indent El \textbf{Gráfico 3} corresponde al caso de test \textit{distrNormal.in}. Siguiendo la misma línea de experimentación que en el test con distribución pareja, aquí se distribuyeron los cortes en distintos listones utilizando una densidad Gaussiana con $\mu = n/2$ y $\sigma = 10\%$ de $n$. La modalidad de variación de cantidad de cortes fue prácticamente igual a la del ejemplo uniforme y el procesado de los datos idéntico a los casos anteriores. La gráfica muestra nuevamente que el algoritmo se comporta de manera cúbica para este caso, pudiendo ser acotado por la misma curva que en el primer experimento. Nuevamente, ambas son parecidas en forma y se espera que a medida que tiendan a infinito esta relación se conserve.\\
+\indent Finalmente, resultó interesante comparar en un \textbf{4to Gráfico} los resultados de los experimentos 1 y 3, para así poder ver de qué manera se relacionaban ambas curvas. Para una mayor claridad del gráfico se usaron las curvas de aproximación cúbica calculadas anteriormente con la función \textit{polyfit()} de Octave. Si bien se observa que el tiempo de corrida del test distribuido con densidad Normal tiene una mejor performance (menos tiempo) respecto de la uniforme, no resulta ser una diferencia muy grande y en términos asintóticos podría decirse que se trata esencialmente de lo mismo (dentro de la contemplación O($m^3$).\\
+\indent Aunque no se trata de una amplia experimentación, la conlusión (o más bien hipótesis) que podemos formular a partir de lo analizado para este problema es que la densidad o la distribución de los cortes no tiene un impacto significativo en la performance cúbica del algoritmo, y que en última instancia para una misma variación de cantidad de cortes, sin importar su distribución, los tiempos de ejecución del algoritmo serán muy parecidos.\\
