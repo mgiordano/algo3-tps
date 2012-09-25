@@ -466,14 +466,21 @@ public class Tests2 {
 	
 	@Test
 	public void testNoConexos() throws IOException{
-		Ej2.resolverFile("./tests/testsAvanzados/Ej2/noConexos10000.in");
-		Ej2.resolverFile("./tests/testsAvanzados/Ej2/noConexos10000bis.in");
-		Ej2.resolverFile("./tests/testsAvanzados/Ej2/noConexos20000.in");
-		Ej2.resolverFile("./tests/testsAvanzados/Ej2/noConexos20000bis.in");
-		Ej2.resolverFile("./tests/testsAvanzados/Ej2/noConexos30000.in");
-		Ej2.resolverFile("./tests/testsAvanzados/Ej2/noConexos30000b.in");
-		Ej2.resolverFile("./tests/testsAvanzados/Ej2/noConexos40000.in");
-		Ej2.resolverFile("./tests/testsAvanzados/Ej2/noConexos50000.in");
+		Ej2.resolverFile("./tests/testsAvanzados/Ej2/noConexos10000alFinal.in");
+		Ej2.resolverFile("./tests/testsAvanzados/Ej2/noConexos10000alMedio.in");
+		Ej2.resolverFile("./tests/testsAvanzados/Ej2/noConexos10000alPrincipioo.in");
+		Ej2.resolverFile("./tests/testsAvanzados/Ej2/noConexos20000alFinal.in");
+		Ej2.resolverFile("./tests/testsAvanzados/Ej2/noConexos20000alMedio.in");
+		Ej2.resolverFile("./tests/testsAvanzados/Ej2/noConexos20000alPrincipio.in");
+		Ej2.resolverFile("./tests/testsAvanzados/Ej2/noConexos30000alFinal.in");
+		Ej2.resolverFile("./tests/testsAvanzados/Ej2/noConexos30000alMedio.in");
+		Ej2.resolverFile("./tests/testsAvanzados/Ej2/noConexos30000alPrincipio.in");
+		Ej2.resolverFile("./tests/testsAvanzados/Ej2/noConexos40000alFinal.in");
+		Ej2.resolverFile("./tests/testsAvanzados/Ej2/noConexos40000alMedio.in");
+		Ej2.resolverFile("./tests/testsAvanzados/Ej2/noConexos40000alPrincipio.in");
+		Ej2.resolverFile("./tests/testsAvanzados/Ej2/noConexos50000alFinal.in");
+		Ej2.resolverFile("./tests/testsAvanzados/Ej2/noConexos50000alMedio.in");
+		Ej2.resolverFile("./tests/testsAvanzados/Ej2/noConexos50000alPrincipio.in");
 	
 	}
 	
