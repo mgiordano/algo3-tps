@@ -73,49 +73,47 @@ a modo de ejemplo:
 	\label{fig:sublistas}
 \end{figure}
 
-\indent En la Figura ~\ref{fig:sublistas} podemos observar como los mínimos 1, 2
+\indent Inicialmente se marca como mínimo y máximo el primer elemento de la lista. En la Figura ~\ref{fig:sublistas} podemos observar cómo los mínimos 1, 2
 y 3 dividen al
 arreglo original en 3 sublistas. Estos valores cumplen la relación:
-$minimo 1$ $>$ $minimo 2$ $>$ $minimo3$. Cada una de las sublistas va a tener un
-valor máximo, y por ende, una ganancia máxima. La ganancia máxima final va a ser
-la mayor de las 3 ganancias máximas de cada una de las sublistas.\\
+$minimo 1$ $>$ $minimo 2$ $>$ $minimo3$ y además no existe ningún valor entre ellos que sea más chico. En otras palabras, cada uno de estos valores es mínimo respecto del mínimo anterior, pero si se encuentra otro mínimo posterior se vuelve únicamente un mínimo local de la sublista que queda determinad. Cada una de las sublistas va a tener un
+valor máximo local, y por ende queda determinada una ganancia máxima local. La ganancia máxima final será
+la mayor de las ganancias máximas locales entre todas las sublistas.\\
 
-\indent Podemos ahora ver el caso general:\\
+\indent En general:\\
 \indent Suponemos que hay un conjunto de $m$ índices en el arreglo, con $m$
 $\leq$ $n$, tales que 
 \begin{center}
- $precios[m_i]$ $>$ $precios[m_j]$ $\forall$ $m_i$ $<$ $m_j$ 
+ $precios[m_0] > precios[m_i] > precios[m_j]$ $\forall$ $m_0 < m_i$ $<$ $m_j$ 
 \end{center}
-Esto quiere decir que tenemos $m$ mínimos y $m_0$ representa al primer mínimo,
-osea el primer elemento del arreglo. Esto quiere decir que vamos a tener el
-arreglo partido en $m$ sublistas.\\
-\indent Queremos ver que dividir en estas sublistas es correcto y que
-efectivamente se encuentra la mayor ganancia en el arreglo. Para esto vamos a
+Esto quiere decir que tenemos $m$ mínimos y $m_0$ representa al primer mínimo (el primer elemento del arreglo). Consecuentemente, habrá una partición de $m$ subarreglos. \\
+\indent Queremos ver que esta partición es correcta y que
+mirando localmente las sublistas se encuentra la mayor ganancia en el arreglo. Para esto vamos a
 tomar el caso particular de una sublista que empieza en el índice $m_i$ y
 termina en el índice $m_{i+1}$ del arreglo. Como dijimos anteriormente hay un
-valor máximo en esa sublista ($max_1$), por lo que la ganancia máxima de esa
-sublista particular es $max_1$ -  $precios[m_i]$. Ahora bien, si dado un índice
-mayor a $m_{i+1}$ encontramos un valor $max_2$, que cumple $max_2$ $>$ $max_1$
-vamos a calcular una nueva ganancia. Vemos que esta ganancia podría ser:
-\begin{center}
- Ganancia1 = $max_2$ -  $precios[m_i]$\\
- o bien\\
- Ganancia2 = $max_2$ -  $precios[m_{i+1}]$\\
-\end{center}
-\indent Pero como vimos que $precios[m_{i+1}]$ $<$ $precios[m_i]$ vale que:
-\begin{center}
- Ganancia1 $<$ Ganancia2
-\end{center}
-\indent Y esto demuestra que una vez que se encuentra un nuevo mínimo, esta bien
-guardar el mejor valor de ganancia hasta el momento y actualizar el mínimo al
-nuevo valor para seguir buscando una ganancia mayor y que efectivamente la
-variable $gananciaMax$ contiene la mayor ganancia que se puede obtener de los
-precios pasados como parametro.\\
-\indent Como no hay algún caso que no hayamos contemplado, podemos concluir que
-nuestro algoritmo es correcto.
+valor máximo en esa sublista ($max_i$), por lo que la ganancia máxima de esa
+sublista particular es $ganancia_i = max_i$ -  $precios[m_i]$. \\
+\indent Ahora bien, si esta era la única sublista (o sea se trata de la lista completa), es evidente ver que hemos encontrado el máximo global de la solución. Si en cambio al menos hubiera más de una sublista, consideremos aquella que sigue inmediatamente a la \textit{i-ésima} antes considerada. Por el mismo procedimiento, nos encontraremos con una $ganancia_{i+1} = max_{i+1} - precios[m_{i+1}]$. El algoritmo ahora comparará ambas ganancias, y se quedará con la mayor de ellas, luego procederá a hacer el mismo cálculo sobre la próxima sublista hasta terminar con la búsqueda. De esta manera, por comparación y descarte, encontrará la ganancia máxima global según lo consignado anteriormente. Esto únicamente sería correcto si pudiera existir una ganancia superior que consistiera en la resta de un máximo de una sublista $j+1$ y un mínimo de una sublista $j$, lo cual es absurdo ya que vimos que $precios[m_{j+1}] < precios[m_j]$, con lo cual es correcta la partición de sublistas y la busqueda local de ganancias, para luego comparar y quedarse con la más grande.
 
-
-
+%si dado un índice
+%mayor a $m_{i+1}$ encontramos un valor $max_2$, que cumple $max_2$ $>$ $max_1$
+%vamos a calcular una nueva ganancia. Vemos que esta ganancia podría ser:
+%\begin{center}
+% Ganancia1 = $max_2$ -  $precios[m_i]$\\
+% o bien\\
+% Ganancia2 = $max_2$ -  $precios[m_{i+1}]$\\
+%\end{center}
+%\indent Pero como vimos que $precios[m_{i+1}]$ $<$ $precios[m_i]$ vale que:
+%\begin{center}
+% Ganancia1 $<$ Ganancia2
+%\end{center}
+%\indent Y esto demuestra que una vez que se encuentra un nuevo mínimo, esta bien
+%guardar el mejor valor de ganancia hasta el momento y actualizar el mínimo al
+%nuevo valor para seguir buscando una ganancia mayor y que efectivamente la
+%variable $gananciaMax$ contiene la mayor ganancia que se puede obtener de los
+%precios pasados como parametro.\\
+%\indent Como no hay algún caso que no hayamos contemplado, podemos concluir que
+%nuestro algoritmo es correcto.
 
 \clearpage
 \subsection{Complejidad}
